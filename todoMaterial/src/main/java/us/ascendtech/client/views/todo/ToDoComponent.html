@@ -1,0 +1,47 @@
+<v-container fluid>
+    <v-layout row>
+        <v-flex xs12>
+            <v-text-field
+                    v-model="inputTodo"
+                    name="todo"
+                    label="Enter Text"
+                    v-on:keyup.enter="addToTable"
+            ></v-text-field>
+        </v-flex>
+    </v-layout>
+    <v-layout row justify-space-between>
+        <v-flex xs12 sm6>
+            <v-btn color="secondary" v-on:click="addToTable">Add</v-btn>
+        </v-flex>
+        <v-flex xs12 sm6>
+            <v-btn color="secondary" v-on:click="removeFromTable">Remove</v-btn>
+        </v-flex>
+    </v-layout>
+    <v-layout row>
+        <v-flex xs12>
+            <ag-grid-vue style="height: 500px; width: 100%;"
+                         class="ag-theme-material"
+                         :columnDefs="columnDefs"
+                         :rowData="rowData"
+                         :enableColResize="true"
+                         :enableSorting="true"
+                         :enableFilter="true"
+                         rowSelection="multiple"
+                         pagination="true"
+                         :gridReady="onGridReady"
+            >
+            </ag-grid-vue>
+        </v-flex>
+    </v-layout>
+    <div id="error">
+        <v-snackbar
+                :timeout="6000"
+                top="top"
+                right="right"
+                v-model="showError"
+        >
+            {{ error }}
+            <v-btn flat color="red" @click.native="showError = false">Close</v-btn>
+        </v-snackbar>
+    </div>
+</v-container>
