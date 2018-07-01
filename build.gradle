@@ -1,0 +1,103 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.2"
+    id "net.ltgt.apt" version "0.15"
+    id "net.ltgt.apt-idea" version "0.15"
+}
+
+defaultTasks 'build'
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: "net.ltgt.apt"
+    apply plugin: "net.ltgt.apt-idea"
+
+    shadowJar {
+        zip64 true
+    }
+
+    defaultTasks 'build'
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: "file:///maven")
+            }
+        }
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    version = '1.0'
+
+    group = 'us.ascendtech'
+
+    repositories {
+        mavenCentral()
+        flatDir name: 'directoryRepository', dirs: rootProject.file('notInMaven')
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+        maven {
+            url "http://maven.twttr.com/"
+        }
+
+        //for micronaut
+        repositories {
+            maven { url "https://jcenter.bintray.com" }
+        }
+    }
+
+    configurations.all {
+        // check for updates every build more than 10 minutes apart (for snapshots)
+        resolutionStrategy.cacheChangingModulesFor 600, 'seconds'
+    }
+
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    compileJava {
+        options.debug = true
+        options.debugOptions.debugLevel = "source,lines,vars"
+    }
+
+    //2.8.2-rx1 is for rx-java, can be removed after next gwt 2.8.x that contains the patch to
+    //JDT (https://bugs.eclipse.org/bugs/show_bug.cgi?id=521438)
+    ext.gwtVersion = '2.8.2-rx1'
+    ext.micronautVersion = '1.0.0.M1'
+
+    dependencies {
+        testCompile 'junit:junit:[4.10,)'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/java'
+            }
+        }
+        test {
+            resources {
+                srcDir 'src/test/java'
+            }
+        }
+    }
+
+
+}

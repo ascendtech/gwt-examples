@@ -1,0 +1,17 @@
+plugins {
+    id "us.ascendtech.gwt.lib" version "0.2.1"
+}
+
+dependencies {
+    //vue gwt
+    compile 'com.axellience:vue-gwt:1.0-beta-8'
+    annotationProcessor 'com.axellience:vue-gwt-processors:1.0-beta-8'
+
+    // elemental
+    compile 'com.google.elemental2:elemental2-webstorage:1.0.0-RC1'
+}
+
+
+
+
+

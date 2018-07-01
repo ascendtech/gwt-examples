@@ -1,0 +1,28 @@
+plugins {
+    id "us.ascendtech.gwt.modern" version "0.2.1"
+}
+
+gwt {
+    modules = ['us.ascendtech.ToDo']
+}
+
+dependencies {
+
+    //vue gwt
+    compile 'com.axellience:vue-gwt:1.0-beta-8'
+    annotationProcessor 'com.axellience:vue-gwt-processors:1.0-beta-8'
+
+    //vue gwt router
+    compile 'com.axellience:vue-router-gwt:1.0-beta-8'
+
+    //autorest
+    annotationProcessor ('com.intendia.gwt.autorest:autorest-processor:0.8')
+    compile 'com.intendia.gwt.autorest:autorest-gwt:0.8'
+
+    compile 'com.google.elemental2:elemental2-webstorage:1.0.0-RC1'
+
+    compile project(':aggrid')
+
+}
+
+

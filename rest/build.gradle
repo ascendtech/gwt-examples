@@ -1,0 +1,25 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+dependencies {
+
+    compile "io.reactivex.rxjava2:rxjava:2.1.14"
+
+    annotationProcessor "io.micronaut:inject-java:$micronautVersion"
+    compile "io.micronaut:http-client:$micronautVersion"
+    compile "io.micronaut:http-server-netty:$micronautVersion"
+    compile "io.micronaut:inject:$micronautVersion"
+    compile "io.micronaut:runtime:$micronautVersion"
+    compile "io.micronaut:security-jwt:$micronautVersion"
+
+    compileOnly "io.micronaut:inject-java:$micronautVersion"
+    testCompile "junit:junit:4.12"
+    testCompile "io.micronaut:inject-java:$micronautVersion"
+
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'NLPApplication'
+    }
+}

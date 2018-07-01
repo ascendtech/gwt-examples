@@ -1,0 +1,34 @@
+List<String> excludes = new ArrayList<String>();
+excludes.add(".gradle");
+excludes.add(".git");
+excludes.add("gradle");
+excludes.add("notInMaven");
+excludes.add("DuplicateNameAlgorithm");
+excludes.add("formatter");
+excludes.add(".idea");
+excludes.add("build");
+excludes.add("buildSrc");
+
+List<String> projects = Arrays.asList(rootDir.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				File file = new File(dir, name)
+				if (!file.isDirectory()) {
+					return false
+				}
+				
+				for (String exclude : excludes) {
+					if (exclude.equals(name)) {
+						return false
+					}
+				}
+				return true
+			}
+}))
+
+for (String p : projects) {
+	include p;
+}
+
+rootProject.name='GWT-Examples'
+

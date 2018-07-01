@@ -1,14 +1,37 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+.classpath
 .gradle
-/build/
+.gwt
+.idea
+.project
+.settings
+bin
+build
+**/*.iml
+classes
 
-# Ignore Gradle GUI config
-gradle-app.setting
+*/.classpath
+*/.gradle
+*/.gwt
+*/.idea
+*/.project
+*/.settings
+*/bin
+*/build
+*/gwt-unitCache
+*/generated-sources
+**/war/WEB-INF/classes
+**/war/WEB-INF/lib/
+**/war/WEB-INF/deploy/
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+*/out
 
-# Cache of project
-.gradletasknamecache
-
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
+*/node_modules
+**/bundle.js

@@ -1,0 +1,7 @@
+micronaut:
+  server:
+    port: 12111
+    cors:
+      enabled: true
+  application:
+    name: todo-service
