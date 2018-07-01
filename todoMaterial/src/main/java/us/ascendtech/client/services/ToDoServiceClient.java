@@ -8,7 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @AutoRestGwt
-@Path("todo")
+@Path("/todo")
 public interface ToDoServiceClient {
 
 	@POST
