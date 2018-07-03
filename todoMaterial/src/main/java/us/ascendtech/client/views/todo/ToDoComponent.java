@@ -45,7 +45,9 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 	void addToTable() {
 		ToDoDTO newToDoDTO = new ToDoDTO();
 		newToDoDTO.todo = inputTodo;
+		newToDoDTO.done = false;
 		rowData.push(newToDoDTO);
+		ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO).subscribe();
 		inputTodo = "";
 	}
 
