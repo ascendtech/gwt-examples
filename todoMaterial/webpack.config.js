@@ -26,7 +26,7 @@ module.exports = {
     devServer: {
         port: 8080,
         proxy: {
-            '/todo': {
+            '/service/todo': {
                 target: 'http://localhost:12111',
                 ws: true,
                 changeOrigin: true

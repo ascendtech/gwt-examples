@@ -9,7 +9,7 @@ import us.ascendtech.rest.services.ToDoService;
 
 import java.util.List;
 
-@Controller("/todo")
+@Controller("/service/todo")
 public class ToDoController {
 
 	private ToDoService todoService;
@@ -18,7 +18,7 @@ public class ToDoController {
 		this.todoService = todoService;
 	}
 
-	@Post("/list")
+	@Get("/list")
 	public HttpResponse<List<ToDo>> list() throws Exception {
 		return HttpResponse.created(todoService.getCurrentTODOs());
 	}
