@@ -1,5 +1,5 @@
 plugins {
-    id "us.ascendtech.gwt.modern" version "0.2.1"
+    id "us.ascendtech.gwt.modern" version "0.2.2"
 }
 
 gwt {
