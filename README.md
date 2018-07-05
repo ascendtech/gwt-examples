@@ -33,7 +33,7 @@ Compile deploy
 ```bash
 cd rest
 ../gradlew shadowJar
-#deploy service with proxy in front (/todo to localhost:12111) (run service using java -jar)
+#deploy service with proxy in front (/service/todo to localhost:12111) (run service using java -jar)
 
 cd todoMaterial
 ../gradlew gwtArchive
