@@ -1,12 +1,15 @@
 <v-container fluid>
     <v-layout row>
-        <v-flex xs12>
+        <v-flex xs12 md6>
             <v-text-field
                     v-model="inputTodo"
                     name="todo"
                     label="Enter Text"
                     v-on:keyup.enter="addToTable"
             ></v-text-field>
+        </v-flex>
+        <v-flex xs12 md6>
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
         </v-flex>
     </v-layout>
     <v-layout row justify-space-between>

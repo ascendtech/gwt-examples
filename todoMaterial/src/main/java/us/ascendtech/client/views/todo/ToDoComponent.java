@@ -11,6 +11,7 @@ import jsinterop.annotations.JsProperty;
 import us.ascendtech.client.aggrid.AgReadyEvent;
 import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
+import us.ascendtech.client.dto.DropzoneOptions;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
 
@@ -41,6 +42,9 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 	@JsProperty
 	JsArray<ToDoDTO> rowData = new JsArray<>();
 
+	@JsProperty
+	DropzoneOptions dropzoneOptions;
+
 	@JsMethod
 	void addToTable() {
 		ToDoDTO newToDoDTO = new ToDoDTO();
@@ -66,6 +70,12 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 		gridApi.sizeColumnsToFit();
 	}
 
+	@JsMethod
+	public void doSuccess() {
+		GWT.log("Here at all?");
+		//GWT.log(dropzoneOptions.dropzoneSuccessEvent.response);
+	}
+
 	@Override
 	public void beforeMount() {
 		ColumnDefinition<ToDoDTO> todoColumn = new ColumnDefinition<>();
@@ -76,6 +86,12 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 		columnDefs.push(todoColumn);
 
 		rowData = new JsArray<>();
+
+		//dropzoneOptions = new DropzoneOptions();
+		//dropzoneOptions.url = "/service/todo/fileUpload";
+		//dropzoneOptions.thumbnailWidth = 150;
+		//dropzoneOptions.maxFilesize = 0.5f;
+		//dropzoneOptions.dropzoneSuccessEvent = new DropzoneSuccessEvent();
 
 		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
 
