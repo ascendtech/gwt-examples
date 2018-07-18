@@ -13,6 +13,4 @@ public class DropzoneOptions {
 
 	public Float maxFilesize;
 
-	//public DropzoneSuccessEvent dropzoneSuccessEvent;
-
 }

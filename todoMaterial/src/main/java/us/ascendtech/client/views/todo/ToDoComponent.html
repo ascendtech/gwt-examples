@@ -9,7 +9,7 @@
             ></v-text-field>
         </v-flex>
         <v-flex xs12 md6>
-            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-success="onSuccess"></vue-dropzone>
         </v-flex>
     </v-layout>
     <v-layout row justify-space-between>

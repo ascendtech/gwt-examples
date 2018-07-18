@@ -5,6 +5,8 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
 import com.google.gwt.core.client.GWT;
 import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.File;
 import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
@@ -12,6 +14,7 @@ import us.ascendtech.client.aggrid.AgReadyEvent;
 import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
 import us.ascendtech.client.dto.DropzoneOptions;
+import us.ascendtech.client.dto.DropzoneResponseDTO;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
 
@@ -71,9 +74,8 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 	}
 
 	@JsMethod
-	public void doSuccess() {
-		GWT.log("Here at all?");
-		//GWT.log(dropzoneOptions.dropzoneSuccessEvent.response);
+	public void onSuccess(File file, DropzoneResponseDTO response) {
+		DomGlobal.console.log("Got response: " + response.response);
 	}
 
 	@Override
@@ -87,11 +89,10 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 		rowData = new JsArray<>();
 
-		//dropzoneOptions = new DropzoneOptions();
-		//dropzoneOptions.url = "/service/todo/fileUpload";
-		//dropzoneOptions.thumbnailWidth = 150;
-		//dropzoneOptions.maxFilesize = 0.5f;
-		//dropzoneOptions.dropzoneSuccessEvent = new DropzoneSuccessEvent();
+		dropzoneOptions = new DropzoneOptions();
+		dropzoneOptions.url = "/service/todo/fileUpload";
+		dropzoneOptions.thumbnailWidth = 150;
+		dropzoneOptions.maxFilesize = 0.5f;
 
 		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
 
