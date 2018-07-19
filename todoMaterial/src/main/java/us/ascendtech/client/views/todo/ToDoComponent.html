@@ -13,17 +13,20 @@
         <v-flex xs12 sm6>
             <v-btn color="secondary" v-on:click="addToTable">Add</v-btn>
         </v-flex>
+        <v-flex xs12 sm6>
+            <v-btn color="secondary" v-on:click="removeFromTable">Remove</v-btn>
+        </v-flex>
     </v-layout>
     <v-layout row>
         <v-flex xs12>
-            <ag-grid-vue style="height: 300px; width: 100%;"
+            <ag-grid-vue style="height: 500px; width: 100%;"
                          class="ag-theme-material"
                          :columnDefs="columnDefs"
                          :rowData="rowData"
                          :enableColResize="true"
                          :enableSorting="true"
                          :enableFilter="true"
-                         rowSelection="single"
+                         rowSelection="multiple"
                          pagination="true"
                          :gridReady="onGridReady"
             >

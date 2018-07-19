@@ -1,5 +1,6 @@
 package us.ascendtech.rest.controllers;
 
+import io.micronaut.context.annotation.Parameter;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -26,14 +27,15 @@ public class ToDoController {
 	}
 
 	@Put("/add")
-	public HttpResponse add(@Body ToDo todo) {
+	public HttpResponse<ToDo> add(@Body ToDo todo) {
+		System.out.println(todo);
 		todoService.addTodo(todo);
-		return HttpResponse.ok();
+		return HttpResponse.created(todo);
 	}
 
-	@Delete("/delete")
-	public HttpResponse delete(@Body ToDo todo) {
-		todoService.addTodo(todo);
+	@Delete("/delete/{id}")
+	public HttpResponse delete(@Parameter Integer id) {
+		todoService.removeTodo(id);
 		return HttpResponse.ok();
 	}
 

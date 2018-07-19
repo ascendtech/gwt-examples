@@ -1,17 +1,30 @@
 package us.ascendtech.rest.model;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ToDo {
 
+	private static final AtomicInteger counter = new AtomicInteger();
+
+	private Integer id;
 	private String todo;
-	private boolean done;
 
 	public ToDo() {
+		this.id = counter.getAndIncrement();
 	}
 
 	public ToDo(String todo) {
+		this.id = counter.getAndIncrement();
 		this.todo = todo;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getTodo() {
@@ -22,14 +35,6 @@ public class ToDo {
 		this.todo = todo;
 	}
 
-	public boolean isDone() {
-		return done;
-	}
-
-	public void setDone(boolean done) {
-		this.done = done;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -37,16 +42,18 @@ public class ToDo {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		ToDo toDo = (ToDo) o;
-		return Objects.equals(todo, toDo.todo);
+		return Objects.equals(id, toDo.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(todo);
+		return Objects.hash(id);
 	}
 
 	@Override
 	public String toString() {
-		return "ToDo{" + "todo='" + todo + '\'' + ", done=" + done + '}';
+		return "ToDo{" + "todo='" + todo + '\'' + '}';
 	}
+
 }
+

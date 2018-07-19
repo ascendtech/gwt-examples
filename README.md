@@ -1,44 +1,29 @@
 A GWT example project using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
 
-
-
 # Getting Started
 
 Run REST service
 ```bash
-cd rest
-../gradlew run
+cd rest && ../gradlew run
 ```
 
 
-Run frontend in dev mode
+Run frontend in dev mode (requires 3 different terminals)
 ```bash
-cd todoMaterial
-../gradlew gwtDev
-
-#new terminal
-cd todoMaterial
-../gradlew gwtDev
-
-#new terminal
-cd todoMaterial
-../gradlew -t build
-
-#open browser to http://localhost:8888/
+cd todoMaterial && ../gradlew webpackDev
+cd todoMaterial && ../gradlew gwtDev
+cd todoMaterial && ../gradlew -t build
 ```
+Open browser to http://localhost:8888/
+
 
 In dev mode a refresh will recompile GWT, CSS, JS, and webpack changes.
 
 Compile deploy
 ```bash
-cd rest
-../gradlew shadowJar
-#deploy service with proxy in front (/todo to localhost:12111) (run service using java -jar)
+#deploy service with proxy in front (/service/todo to localhost:12111) (run service using java -jar)
+cd rest && ../gradlew shadowJar
 
-cd todoMaterial
-../gradlew gwtArchive
 #copy to archive in build/webapp to nginx or apache
+cd todoMaterial && ../gradlew gwtArchive
 ```
-
-
-
