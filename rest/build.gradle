@@ -21,6 +21,8 @@ dependencies {
 
     compile 'javax.annotation:javax.annotation-api:1.3.2'
 
+    compile "com.google.guava:guava:23.0"
+
 }
 
 shadowJar {

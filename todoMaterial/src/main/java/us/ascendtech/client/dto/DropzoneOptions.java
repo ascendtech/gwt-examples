@@ -11,6 +11,16 @@ public class DropzoneOptions {
 
 	public Integer thumbnailWidth;
 
+	public Integer thumbnailHeight;
+
 	public Float maxFilesize;
+
+	public Integer maxFiles;
+
+	public String acceptedFiles;
+
+	public String dictDefaultMessage;
+
+	public Boolean addRemoveLinks;
 
 }
