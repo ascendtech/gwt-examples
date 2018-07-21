@@ -1,35 +1,51 @@
 package us.ascendtech.rest.services;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import us.ascendtech.rest.model.ToDo;
 
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ToDoService {
 
 	//TODO: This is just a simple example.  A real app would use a database for ToDo items and
 	// user login with different todo lists for different users
-	private Set<ToDo> toDoList = new LinkedHashSet<>();
+	// resets every hour so we don't end up with a lot of nonsense people have added
+	private final Cache<String, Set<ToDo>> toDoSet = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).concurrencyLevel(8).build();
 
 	public ToDoService() {
-		toDoList.add(new ToDo("Need to get milk."));
-		toDoList.add(new ToDo("Wash the car."));
-		toDoList.add(new ToDo("Water the plants."));
-		toDoList.add(new ToDo("Watch the best movie."));
+	}
+
+	public Set<ToDo> getToDoSet() {
+		synchronized (toDoSet) {
+			Set<ToDo> todos = toDoSet.getIfPresent("todo");
+			if (todos == null) {
+				todos = new LinkedHashSet<>();
+				todos.add(new ToDo("Need to get milk."));
+				todos.add(new ToDo("Wash the car."));
+				todos.add(new ToDo("Water the plants."));
+				todos.add(new ToDo("Watch the best movie."));
+
+				toDoSet.put("todo", todos);
+			}
+			return todos;
+		}
 	}
 
 	public Collection<ToDo> getCurrentTODOs() {
-		return toDoList;
+		return getToDoSet();
 	}
 
 	public void addTodo(ToDo todo) {
-		toDoList.add(todo);
+		getToDoSet().add(todo);
 	}
 
 	public void removeTodo(Integer id) {
-		toDoList.removeIf(toDo -> id.equals(toDo.getId()));
+		getToDoSet().removeIf(toDo -> id.equals(toDo.getId()));
 	}
 }

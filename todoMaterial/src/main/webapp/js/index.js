@@ -1,13 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Vuetify from 'vuetify'
-import colors from 'vuetify/es5/util/colors'
-import 'vuetify/dist/vuetify.min.css'
+import Vuetify from 'vuetify';
+import colors from 'vuetify/es5/util/colors';
+import 'vuetify/dist/vuetify.min.css';
 import '../css/todo.css';
 import '../../../../node_modules/ag-grid/dist/styles/ag-grid.css';
 import '../../../../node_modules/ag-grid/dist/styles/ag-theme-material.css';
 import {AgGridVue} from 'ag-grid-vue';
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
 Vue.use(VueRouter);
 
@@ -23,6 +25,7 @@ Vue.use(Vuetify, {
     }
 });
 Vue.component("AgGridVue", AgGridVue);
+Vue.component("vueDropzone", vue2Dropzone);
 
 window.Vue = Vue;
 window.VueRouter = VueRouter;
