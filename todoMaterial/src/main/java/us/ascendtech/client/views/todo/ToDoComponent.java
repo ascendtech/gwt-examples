@@ -1,6 +1,7 @@
 package us.ascendtech.client.views.todo;
 
 import com.axellience.vuegwt.core.annotations.component.Component;
+import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
 import com.google.gwt.core.client.GWT;
@@ -9,7 +10,6 @@ import elemental2.core.JsArray;
 import elemental2.dom.File;
 import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
 import jsinterop.base.JsPropertyMap;
 import us.ascendtech.client.aggrid.AgReadyEvent;
 import us.ascendtech.client.aggrid.ColumnDefinition;
@@ -30,31 +30,31 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 		showError = true;
 	};
 
-	@JsProperty
+	@Data
 	String error;
 
-	@JsProperty
+	@Data
 	boolean showError;
 
-	@JsProperty
+	@Data
 	String success;
 
-	@JsProperty
+	@Data
 	boolean showSuccess;
 
-	@JsProperty
+	@Data
 	String inputTodo;
 
-	@JsProperty
+	@Data
 	GridApi<ToDoDTO> gridApi;
 
-	@JsProperty
+	@Data
 	JsArray<ColumnDefinition> columnDefs = new JsArray<>();
 
-	@JsProperty
+	@Data
 	JsArray<ToDoDTO> rowData = new JsArray<>();
 
-	@JsProperty
+	@Data
 	DropzoneOptions dropzoneOptions;
 
 	@JsMethod

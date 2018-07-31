@@ -1,6 +1,5 @@
 package us.ascendtech.client;
 
-import com.axellience.vuegwt.core.client.VueGWT;
 import com.axellience.vuegwt.core.client.component.options.CustomizeOptions;
 import com.axellience.vuegwt.core.client.component.options.VueComponentOptions;
 import com.axellience.vueroutergwt.client.Route;
@@ -9,8 +8,8 @@ import com.axellience.vueroutergwt.client.RouterOptions;
 import com.axellience.vueroutergwt.client.VueRouter;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
-import us.ascendtech.client.views.home.HomeComponent;
-import us.ascendtech.client.views.todo.ToDoComponent;
+import us.ascendtech.client.views.home.HomeComponentFactory;
+import us.ascendtech.client.views.todo.ToDoComponentFactory;
 
 public class RoutesConfig implements CustomizeOptions {
 
@@ -23,10 +22,8 @@ public class RoutesConfig implements CustomizeOptions {
 	public void customizeOptions(VueComponentOptions componentOptions) {
 		RouterOptions routerOptions = new RouterOptions();
 
-		routerOptions
-				.addRoute(new RouteConfig().setPath("/").setName("home").setComponent(VueGWT.getVueComponentFactory(HomeComponent.class).getJsConstructor()));
-		routerOptions.addRoute(
-				new RouteConfig().setPath("/todo").setName("todo").setComponent(VueGWT.getVueComponentFactory(ToDoComponent.class).getJsConstructor()));
+		routerOptions.addRoute(new RouteConfig().setPath("/").setName("home").setComponent(HomeComponentFactory.get().getJsConstructor()));
+		routerOptions.addRoute(new RouteConfig().setPath("/todo").setName("todo").setComponent(ToDoComponentFactory.get().getJsConstructor()));
 
 		// We need to create our router
 		VueRouter vueRouter = new VueRouter(routerOptions);
