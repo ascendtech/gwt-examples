@@ -71,7 +71,7 @@ subprojects {
     //2.8.2-rx1 is for rx-java, can be removed after next gwt 2.8.x that contains the patch to
     //JDT (https://bugs.eclipse.org/bugs/show_bug.cgi?id=521438)
     ext.gwtVersion = '2.8.2-rx1'
-    ext.micronautVersion = '1.0.0.M2'
+    ext.micronautVersion = '1.0.0.M4'
 
     dependencies {
         testCompile 'junit:junit:[4.10,)'
