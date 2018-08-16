@@ -10,6 +10,7 @@ import '../../../../node_modules/ag-grid/dist/styles/ag-theme-material.css';
 import {AgGridVue} from 'ag-grid-vue';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+//import HighchartsVue from 'highcharts-vue'
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,8 @@ Vue.use(Vuetify, {
 });
 Vue.component("AgGridVue", AgGridVue);
 Vue.component("vueDropzone", vue2Dropzone);
+//Vue.use(HighchartsVue); 
 
 window.Vue = Vue;
 window.VueRouter = VueRouter;
+//window.HighchartsVue = HighchartsVue;
