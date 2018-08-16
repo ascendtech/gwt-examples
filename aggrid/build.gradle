@@ -4,11 +4,8 @@ plugins {
 
 dependencies {
     //vue gwt
-    compile 'com.axellience:vue-gwt:1.0-beta-9-SNAPSHOT'
-    annotationProcessor 'com.axellience:vue-gwt-processors:1.0-beta-9-SNAPSHOT'
-
-    // elemental
-    compile 'com.google.elemental2:elemental2-webstorage:1.0.0-RC1'
+    compile 'com.axellience:vue-gwt:1.0-beta-9'
+    annotationProcessor 'com.axellience:vue-gwt-processors:1.0-beta-9'
 
     annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'
 
