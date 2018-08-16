@@ -22,7 +22,6 @@
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.18",
     "vue2-dropzone": "^3.2.2",
-    "highcharts": "^6.1.1",
-    "highcharts-vue": "^1.0.4"
+    "highcharts": "^6.1.1"
   }
 }
