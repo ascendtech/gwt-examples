@@ -47,7 +47,7 @@ subprojects {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
         maven {
-            url "http://maven.twttr.com/"
+            url 'https://jitpack.io'
         }
 
         //for micronaut
@@ -58,7 +58,7 @@ subprojects {
 
     configurations.all {
         // check for updates every build more than 10 minutes apart (for snapshots)
-        resolutionStrategy.cacheChangingModulesFor 600, 'seconds'
+        resolutionStrategy.cacheChangingModulesFor 5, 'seconds'
     }
 
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
