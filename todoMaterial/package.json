@@ -15,12 +15,12 @@
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
-    "ag-grid": "^17.1.1",
-    "ag-grid-vue": "^17.1.0",
-    "npm": "^6.1.0",
-    "vue": "^2.5.16",
+    "ag-grid-community": "^19.0.0",
+    "ag-grid-vue": "^19.0.0",
+    "npm": "^6.4.1",
+    "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vue2-dropzone": "^3.2.2",
+    "vue2-dropzone": "^3.4.0",
     "highcharts": "^6.1.1",
     "vuetify": "^1.2.9"
   }
