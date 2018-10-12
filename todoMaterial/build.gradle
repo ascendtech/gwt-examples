@@ -1,10 +1,10 @@
 plugins {
-    id "us.ascendtech.gwt.modern" version "0.3.0"
+    id "us.ascendtech.gwt.modern" version "0.3.1"
 }
 
 gwt {
     modules = ['us.ascendtech.ToDo']
-    libs = ['vue', 'autorest', 'elemento-core']
+    libs = ['vue', 'autorest', 'elemento-core', 'ast-highcharts']
 }
 
 dependencies {
