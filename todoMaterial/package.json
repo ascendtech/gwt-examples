@@ -21,6 +21,8 @@
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.18",
-    "vue2-dropzone": "^3.2.2"
+    "vue2-dropzone": "^3.2.2",
+    "highcharts": "^6.1.1",
+    "moment": "^2.22.2"
   }
 }

@@ -17,6 +17,12 @@ import us.ascendtech.client.aggrid.GridApi;
 import us.ascendtech.client.dto.DropzoneOptions;
 import us.ascendtech.client.dto.DropzoneResponseDTO;
 import us.ascendtech.client.dto.ToDoDTO;
+import us.ascendtech.client.highcharts.js.ChartOptions;
+import us.ascendtech.client.highcharts.js.Highcharts;
+import us.ascendtech.client.highcharts.js.chartoptions.Title;
+import us.ascendtech.client.highcharts.js.chartoptions.chart.Chart;
+import us.ascendtech.client.highcharts.js.chartoptions.series.Series;
+import us.ascendtech.client.highcharts.js.chartoptions.shared.SeriesTypes;
 import us.ascendtech.client.services.ServiceProvider;
 
 import static jsinterop.base.Js.cast;
@@ -56,6 +62,9 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 	@Data
 	DropzoneOptions dropzoneOptions;
+
+	@Data
+	ChartOptions chartOptions;
 
 	@JsMethod
 	void addToTable() {
@@ -121,4 +130,17 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 	}
 
+	@JsMethod
+	public void createChart() {
+
+		chartOptions = new ChartOptions();
+		chartOptions.setChart(new Chart().setType(SeriesTypes.COLUMN.getSeriesType()));
+		chartOptions.setSeries(new JsArray<>(new Series().setData(new JsArray<>(29.9, 71.5, 106.4, 129.2, 144.0)).setStacking("normal").setStack("0"),
+				new Series().setData(new JsArray<>(30, 176.0, 135.6, 148.5, 216.4)).setStacking("normal").setStack("0"),
+				new Series().setData(new JsArray<>(106.4, 129.2, 144.0, 29.9, 71.5)).setStacking("normal").setStack("1"),
+				new Series().setData(new JsArray<>(148.5, 216.4, 30, 176.0, 135.6)).setStacking("normal").setStack("1")));
+		chartOptions.setTitle(new Title().setText("This is a solid chart."));
+
+		new Highcharts("columnChart", chartOptions);
+	}
 }

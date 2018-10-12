@@ -4,7 +4,7 @@ plugins {
 
 gwt {
     modules = ['us.ascendtech.ToDo']
-    libs = ['vue', 'autorest', 'elemento-core']
+    libs = ['vue', 'autorest', 'elemento-core', 'ast-highcharts']
 }
 
 dependencies {
