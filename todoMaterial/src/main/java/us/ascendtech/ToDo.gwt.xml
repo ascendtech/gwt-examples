@@ -8,7 +8,6 @@
     <inherits name="elemental2.webstorage.WebStorage"/>
     <inherits name="us.ascendtech.AGGrid"/>
     <inherits name="us.ascendtech.Highcharts"/>
-    <inherits name="us.ascendtech.MomentJS"/>
 
     <entry-point class='us.ascendtech.client.ToDo'/>
 
