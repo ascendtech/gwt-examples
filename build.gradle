@@ -68,7 +68,7 @@ subprojects {
         options.debugOptions.debugLevel = "source,lines,vars"
     }
 
-    ext.micronautVersion = '1.0.0.M4'
+    ext.micronautVersion = '1.0.0.RC2'
 
     dependencies {
         testCompile 'junit:junit:[4.10,)'

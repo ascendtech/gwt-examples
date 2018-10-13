@@ -17,11 +17,31 @@
             </v-list-tile>
             <v-list-tile to="/todo" @click="drawer = !drawer">
                 <v-list-tile-action>
-                    <v-icon>group</v-icon>
+                    <v-icon>list</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
                     <v-list-tile-title>
                         ToDos
+                    </v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile to="/chart" @click="drawer = !drawer">
+                <v-list-tile-action>
+                    <v-icon>bar_chart</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        Charts
+                    </v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile to="/upload" @click="drawer = !drawer">
+                <v-list-tile-action>
+                    <v-icon>cloud_upload</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        Upload
                     </v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>

@@ -5,27 +5,14 @@ import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
 import com.google.gwt.core.client.GWT;
-import elemental2.core.Function;
 import elemental2.core.JsArray;
-import elemental2.dom.File;
 import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
-import jsinterop.base.JsPropertyMap;
 import us.ascendtech.client.aggrid.AgReadyEvent;
 import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
-import us.ascendtech.client.dto.DropzoneOptions;
-import us.ascendtech.client.dto.DropzoneResponseDTO;
 import us.ascendtech.client.dto.ToDoDTO;
-import us.ascendtech.client.highcharts.js.ChartOptions;
-import us.ascendtech.client.highcharts.js.Highcharts;
-import us.ascendtech.client.highcharts.js.chartoptions.Title;
-import us.ascendtech.client.highcharts.js.chartoptions.chart.Chart;
-import us.ascendtech.client.highcharts.js.chartoptions.series.Series;
-import us.ascendtech.client.highcharts.js.chartoptions.shared.SeriesTypes;
 import us.ascendtech.client.services.ServiceProvider;
-
-import static jsinterop.base.Js.cast;
 
 @Component
 public class ToDoComponent implements IsVueComponent, HasBeforeMount {
@@ -43,12 +30,6 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 	boolean showError;
 
 	@Data
-	String success;
-
-	@Data
-	boolean showSuccess;
-
-	@Data
 	String inputTodo;
 
 	@Data
@@ -59,12 +40,6 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 	@Data
 	JsArray<ToDoDTO> rowData = new JsArray<>();
-
-	@Data
-	DropzoneOptions dropzoneOptions;
-
-	@Data
-	ChartOptions chartOptions;
 
 	@JsMethod
 	void addToTable() {
@@ -91,18 +66,6 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 		gridApi.sizeColumnsToFit();
 	}
 
-	@JsMethod
-	public void onSuccess(File file, DropzoneResponseDTO response) {
-		success = response.response;
-		showSuccess = true;
-
-		rowData = new JsArray<>();
-		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
-
-		JsPropertyMap<Function> jsComponent = cast(vue().$ref("myVueDropzone"));
-		jsComponent.get("removeAllFiles").apply(jsComponent);
-	}
-
 	@Override
 	public void beforeMount() {
 		ColumnDefinition<ToDoDTO> todoColumn = new ColumnDefinition<>();
@@ -114,33 +77,8 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 		rowData = new JsArray<>();
 
-		dropzoneOptions = new DropzoneOptions();
-		dropzoneOptions.url = "/service/todo/fileUpload";
-
-		dropzoneOptions.thumbnailWidth = 75;
-		dropzoneOptions.thumbnailHeight = 75;
-		dropzoneOptions.addRemoveLinks = true;
-		dropzoneOptions.maxFilesize = 0.5f;
-		dropzoneOptions.maxFiles = 1;
-
-		dropzoneOptions.acceptedFiles = ".txt";
-		dropzoneOptions.dictDefaultMessage = "Drop a txt file here or click to upload (one TODO per line)";
-
 		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
 
 	}
 
-	@JsMethod
-	public void createChart() {
-
-		chartOptions = new ChartOptions();
-		chartOptions.setChart(new Chart().setType(SeriesTypes.COLUMN.getSeriesType()));
-		chartOptions.setSeries(new JsArray<>(new Series().setData(new JsArray<>(29.9, 71.5, 106.4, 129.2, 144.0)).setStacking("normal").setStack("0"),
-				new Series().setData(new JsArray<>(30, 176.0, 135.6, 148.5, 216.4)).setStacking("normal").setStack("0"),
-				new Series().setData(new JsArray<>(106.4, 129.2, 144.0, 29.9, 71.5)).setStacking("normal").setStack("1"),
-				new Series().setData(new JsArray<>(148.5, 216.4, 30, 176.0, 135.6)).setStacking("normal").setStack("1")));
-		chartOptions.setTitle(new Title().setText("This is a solid chart."));
-
-		new Highcharts("columnChart", chartOptions);
-	}
 }

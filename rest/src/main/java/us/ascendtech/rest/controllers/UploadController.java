@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-@Controller("/service/todo")
+@Controller("/service")
 public class UploadController {
 
 	private ToDoService todoService;
@@ -41,12 +41,12 @@ public class UploadController {
 				});
 
 				DropzoneResponse response = new DropzoneResponse();
-				response.setResponse("Uploaded that thing!");
+				response.setResponse("Uploaded " + file.getFilename());
 				return HttpResponse.ok(response);
 			}
 			else {
 				DropzoneResponse response = new DropzoneResponse();
-				response.setResponse("Upload failed!");
+				response.setResponse("Upload failed for " + file.getFilename());
 				return HttpResponse.<DropzoneResponse>status(HttpStatus.CONFLICT).body(response);
 			}
 		});

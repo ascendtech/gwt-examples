@@ -9,18 +9,22 @@ public class DropzoneOptions {
 
 	public String url;
 
-	public Integer thumbnailWidth;
+	public Double thumbnailWidth;
 
-	public Integer thumbnailHeight;
+	public Double thumbnailHeight;
 
 	public Float maxFilesize;
 
-	public Integer maxFiles;
+	public Double maxFiles;
 
 	public String acceptedFiles;
 
 	public String dictDefaultMessage;
 
 	public Boolean addRemoveLinks;
+
+	public Boolean chunking;
+
+	public Double chunkSize;
 
 }
