@@ -1,4 +1,4 @@
-package us.ascendtech.rest.model;
+package us.ascendtech.rest.dto;
 
 public class DropzoneResponse {
 

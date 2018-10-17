@@ -1,4 +1,4 @@
-package us.ascendtech.rest.model;
+package us.ascendtech.rest.dto;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;

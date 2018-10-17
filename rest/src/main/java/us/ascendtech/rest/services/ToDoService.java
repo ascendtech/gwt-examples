@@ -2,7 +2,7 @@ package us.ascendtech.rest.services;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import us.ascendtech.rest.model.ToDo;
+import us.ascendtech.rest.dto.ToDo;
 
 import javax.inject.Singleton;
 import java.util.Collection;

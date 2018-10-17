@@ -8,8 +8,8 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.StreamingFileUpload;
 import io.reactivex.Single;
 import org.reactivestreams.Publisher;
-import us.ascendtech.rest.model.DropzoneResponse;
-import us.ascendtech.rest.model.ToDo;
+import us.ascendtech.rest.dto.DropzoneResponse;
+import us.ascendtech.rest.dto.ToDo;
 import us.ascendtech.rest.services.ToDoService;
 
 import java.io.File;
@@ -34,11 +34,13 @@ public class UploadController {
 
 		return Single.fromPublisher(uploadPublisher).map(success -> {
 			if (success) {
-				Files.readAllLines(Paths.get(tempFile.getAbsolutePath())).forEach(line -> {
-					if (!line.trim().isEmpty()) {
-						todoService.addTodo(new ToDo(line));
-					}
-				});
+				if (tempFile.getAbsolutePath().contains(".txt")) {
+					Files.readAllLines(Paths.get(tempFile.getAbsolutePath())).forEach(line -> {
+						if (!line.trim().isEmpty()) {
+							todoService.addTodo(new ToDo(line));
+						}
+					});
+				}
 
 				DropzoneResponse response = new DropzoneResponse();
 				response.setResponse("Uploaded " + file.getFilename());

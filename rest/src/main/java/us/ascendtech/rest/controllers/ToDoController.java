@@ -7,7 +7,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Put;
-import us.ascendtech.rest.model.ToDo;
+import us.ascendtech.rest.dto.ToDo;
 import us.ascendtech.rest.services.ToDoService;
 
 import java.util.Collection;
