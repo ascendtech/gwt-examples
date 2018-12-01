@@ -27,12 +27,6 @@ subprojects {
         }
     }
 
-    idea {
-        module {
-            resourceDirs.clear()
-        }
-    }
-
 
     defaultTasks("build")
 
