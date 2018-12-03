@@ -27,6 +27,9 @@ subprojects {
         }
     }
 
+    idea.module {
+        resourceDirs = resourceDirs - file("src/main/java")
+    }
 
     defaultTasks("build")
 
