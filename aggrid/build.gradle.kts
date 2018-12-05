@@ -6,6 +6,7 @@ plugins {
 
 gwt {
     libs = listOf("vue", "elemento-core")
+    includeGwtUser = false
 }
 
 dependencies {

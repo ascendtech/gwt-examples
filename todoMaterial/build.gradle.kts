@@ -10,6 +10,8 @@ gwt {
     libs.add("autorest")
     libs.add("elemento-core")
     libs.add("ast-highcharts")
+
+    includeGwtUser = false
 }
 
 dependencies {
