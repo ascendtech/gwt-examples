@@ -4,8 +4,8 @@ plugins {
     id("net.ltgt.apt") version "0.19"
     id("net.ltgt.apt-idea") version "0.19"
     id("com.github.johnrengelman.shadow") version "4.0.3" apply false
-    id("us.ascendtech.gwt.lib") apply false version "0.3.7"
-    id("us.ascendtech.gwt.modern") apply false version "0.3.7"
+    id("us.ascendtech.gwt.lib") apply false version "0.3.15"
+    id("us.ascendtech.gwt.modern") apply false version "0.3.15"
 }
 
 defaultTasks("build")
