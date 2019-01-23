@@ -6,9 +6,7 @@ plugins {
 
 gwt {
     modules.add("us.ascendtech.ToDo")
-    libs.add("vue")
     libs.add("autorest")
-    libs.add("elemento-core")
     libs.add("ast-highcharts")
 
     includeGwtUser = false
