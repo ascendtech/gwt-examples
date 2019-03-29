@@ -3,8 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     application
     id("com.github.johnrengelman.shadow")
-    id("net.ltgt.apt")
-    id("net.ltgt.apt-idea")
 }
 
 val micronautVersion: String by project

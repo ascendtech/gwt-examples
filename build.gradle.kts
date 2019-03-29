@@ -15,6 +15,8 @@ subprojects {
 
     apply(plugin = "java")
     apply(plugin = "idea")
+    apply(plugin = "net.ltgt.apt")
+    apply(plugin = "net.ltgt.apt-idea")
 
     sourceSets {
         main {

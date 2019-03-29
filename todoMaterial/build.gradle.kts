@@ -1,7 +1,5 @@
 plugins {
     id("us.ascendtech.gwt.modern")
-    id("net.ltgt.apt")
-    id("net.ltgt.apt-idea")
 }
 
 gwt {
