@@ -7,9 +7,11 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsProperty;
+import us.ascendtech.client.dto.ToDoDTO;
+import us.ascendtech.client.services.ServiceProvider;
 
 @Component
-public class SyncComponent implements IsVueComponent {
+public class SyncWorkaroundComponent implements IsVueComponent {
 
 	@Data
 	boolean isLoading;
@@ -18,15 +20,20 @@ public class SyncComponent implements IsVueComponent {
 	String search;
 
 	@Data
-	String todo;
+	ToDoDTO todo;
 
 	@Data
 	@JsProperty
-	JsArray<String> items = new JsArray<>();
+	JsArray<ToDoDTO> items = new JsArray<>();
 
 	@Watch("search")
 	void watchMessage(String newValue, String oldValue) {
-		DomGlobal.console.log("NewValue: " + newValue);
+		if (newValue != null && newValue.length() > 1) {
+			items = new JsArray<>();
+			ServiceProvider.get().getTodoServiceClient().searchToDos(newValue).subscribe(items::push, onError -> DomGlobal.console.log(onError), () -> {
+				isLoading = false;
+			});
+		}
 	}
 
 }

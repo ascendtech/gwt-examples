@@ -1,12 +1,14 @@
 package us.ascendtech.client.services;
 
 import com.intendia.gwt.autorest.client.AutoRestGwt;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import us.ascendtech.client.dto.ToDoDTO;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,6 +27,10 @@ public interface ToDoServiceClient {
 
 	@DELETE
 	@Path("/delete/{id}")
-	Observable<Void> deleteToDo(@PathParam("id") Integer id);
+	Completable deleteToDo(@PathParam("id") Integer id);
+
+	@POST
+	@Path("/search/{query}")
+	Observable<ToDoDTO> searchToDos(@PathParam("query") String query);
 
 }
