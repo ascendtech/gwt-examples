@@ -4,10 +4,11 @@
     <inherits name='com.axellience.vueroutergwt.VueRouterGwt'/>
     <inherits name="com.intendia.gwt.autorest.AutoRest"/>
     <inherits name="com.google.web.bindery.event.Event"/>
+    <inherits name="com.google.gwt.event.logical.LogicalEvent"/>
+    <inherits name="com.google.gwt.user.UI"/>
     <inherits name="com.google.gwt.event.EventBase"/>
-    <inherits name="elemental2.webstorage.WebStorage"/>
     <inherits name="us.ascendtech.AGGrid"/>
-    <inherits name="us.ascendtech.Highcharts"/>
+    <inherits name="us.ascendtech.highcharts.Highcharts"/>
 
     <entry-point class='us.ascendtech.client.ToDo'/>
 

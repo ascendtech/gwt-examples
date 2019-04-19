@@ -5,5 +5,4 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 
 @Component
 public class HomeComponent implements IsVueComponent {
-
 }

@@ -5,12 +5,12 @@ import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import elemental2.core.JsArray;
 import jsinterop.annotations.JsMethod;
-import us.ascendtech.client.highcharts.js.ChartOptions;
-import us.ascendtech.client.highcharts.js.Highcharts;
-import us.ascendtech.client.highcharts.js.chartoptions.Title;
-import us.ascendtech.client.highcharts.js.chartoptions.chart.Chart;
-import us.ascendtech.client.highcharts.js.chartoptions.series.Series;
-import us.ascendtech.client.highcharts.js.chartoptions.shared.SeriesTypes;
+import us.ascendtech.highcharts.client.ChartOptions;
+import us.ascendtech.highcharts.client.Highcharts;
+import us.ascendtech.highcharts.client.chartoptions.Title;
+import us.ascendtech.highcharts.client.chartoptions.chart.Chart;
+import us.ascendtech.highcharts.client.chartoptions.series.Series;
+import us.ascendtech.highcharts.client.chartoptions.shared.SeriesTypes;
 
 @Component
 public class ChartComponent implements IsVueComponent {

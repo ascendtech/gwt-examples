@@ -4,7 +4,11 @@ import com.axellience.vuegwt.core.annotations.component.Component;
 import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
+import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import elemental2.core.JsArray;
 import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
@@ -15,7 +19,7 @@ import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
 
 @Component
-public class ToDoComponent implements IsVueComponent, HasBeforeMount {
+public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated, ResizeHandler {
 
 	private Consumer<Throwable> err = e -> {
 		GWT.log("exception: " + e, e);
@@ -41,6 +45,9 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 	@Data
 	JsArray<ToDoDTO> rowData = new JsArray<>();
 
+	@Data
+	String tableHeight;
+
 	@JsMethod
 	void addToTable() {
 		ToDoDTO newToDoDTO = new ToDoDTO();
@@ -62,16 +69,16 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 	@JsMethod
 	public void onGridReady(AgReadyEvent<ToDoDTO> event) {
-		gridApi = event.api;
+		gridApi = event.getApi();
 		gridApi.sizeColumnsToFit();
 	}
 
 	@Override
 	public void beforeMount() {
 		ColumnDefinition<ToDoDTO> todoColumn = new ColumnDefinition<>();
-		todoColumn.headerName = "ToDo";
-		todoColumn.field = "todo";
-		todoColumn.checkboxSelection = true;
+		todoColumn.setHeaderName("ToDo");
+		todoColumn.setField("todo");
+		todoColumn.setCheckboxSelection(true);
 
 		columnDefs.push(todoColumn);
 
@@ -81,4 +88,19 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount {
 
 	}
 
+	@Override
+	public void onResize(ResizeEvent resizeEvent) {
+		calculateTableHeight();
+	}
+
+	private void calculateTableHeight() {
+		int height = Window.getClientHeight();
+		tableHeight = "height: " + (height - 280) + "px;";
+	}
+
+	@Override
+	public void created() {
+		calculateTableHeight();
+		Window.addResizeHandler(this);
+	}
 }

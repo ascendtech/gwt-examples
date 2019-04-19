@@ -19,18 +19,21 @@
     </v-layout>
     <v-layout row>
         <v-flex xs12>
-            <ag-grid-vue style="height: 500px; width: 100%;"
-                         class="ag-theme-material"
-                         :columnDefs="columnDefs"
-                         :rowData="rowData"
-                         :enableColResize="true"
-                         :enableSorting="true"
-                         :enableFilter="true"
-                         rowSelection="multiple"
-                         pagination="true"
-                         :gridReady="onGridReady"
-            >
-            </ag-grid-vue>
+            <div v-bind:style="tableHeight">
+                <ag-grid-vue style="height: 100%; width: 100%;"
+
+                             class="ag-theme-material"
+                             :columnDefs="columnDefs"
+                             :rowData="rowData"
+                             :resizable="true"
+                             :sortable="true"
+                             :filter="true"
+                             rowSelection="multiple"
+                             pagination="true"
+                             @gridReady="onGridReady"
+                >
+                </ag-grid-vue>
+            </div>
         </v-flex>
     </v-layout>
     <div id="error">

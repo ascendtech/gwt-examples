@@ -10,6 +10,7 @@ import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
 import us.ascendtech.client.views.charts.ChartComponentFactory;
 import us.ascendtech.client.views.home.HomeComponentFactory;
+import us.ascendtech.client.views.sync.SyncComponentFactory;
 import us.ascendtech.client.views.todo.ToDoComponentFactory;
 import us.ascendtech.client.views.upload.UploadComponentFactory;
 
@@ -28,7 +29,7 @@ public class RoutesConfig implements CustomizeOptions {
 		routerOptions.addRoute(new RouteConfig().setPath("/todo").setName("todo").setComponent(ToDoComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/chart").setName("chart").setComponent(ChartComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/upload").setName("upload").setComponent(UploadComponentFactory.get().getJsConstructor()));
-
+		routerOptions.addRoute(new RouteConfig().setPath("/sync").setName("sync").setComponent(SyncComponentFactory.get().getJsConstructor()));
 
 		// We need to create our router
 		VueRouter vueRouter = new VueRouter(routerOptions);
