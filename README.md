@@ -12,7 +12,7 @@ Run frontend in dev mode (requires 3 different terminals)
 ```bash
 cd todoMaterial && ../gradlew webpackDev
 cd todoMaterial && ../gradlew gwtDev
-cd todoMaterial && ../gradlew -t build
+cd todoMaterial && ../gradlew --build-cache -t compileJava
 ```
 Open browser to http://localhost:8888/
 
