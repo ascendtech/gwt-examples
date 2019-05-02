@@ -6,8 +6,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "4.0.3" apply false
     id("net.ltgt.apt") version "0.19" apply false
     id("net.ltgt.apt-idea") version "0.19" apply false
-    id("us.ascendtech.gwt.lib") version "0.3.22" apply false
-    id("us.ascendtech.gwt.modern") version "0.3.22" apply false
+    id("us.ascendtech.gwt.lib") version "0.3.24" apply false
+    id("us.ascendtech.gwt.modern") version "0.3.24" apply false
 }
 
 defaultTasks("build")
