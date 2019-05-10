@@ -6,6 +6,7 @@ import com.axellience.vuegwt.core.annotations.component.Watch;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
@@ -34,6 +35,11 @@ public class SyncWorkaroundComponent implements IsVueComponent {
 				isLoading = false;
 			});
 		}
+	}
+
+	@JsMethod
+	void emptyItems() {
+		items = new JsArray<>();
 	}
 
 }
