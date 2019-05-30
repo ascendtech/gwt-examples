@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import './polyfill'
 import Vuetify from 'vuetify';
 import colors from 'vuetify/es5/util/colors';
 import 'vuetify/dist/vuetify.min.css';
