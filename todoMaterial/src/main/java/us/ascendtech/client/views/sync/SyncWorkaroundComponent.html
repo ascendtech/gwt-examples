@@ -25,6 +25,7 @@
                     placeholder="Start typing to Search"
                     prepend-icon="search"
                     return-object
+                    v-on:blur="emptyItems"
             ></v-autocomplete>
         </v-flex>
     </v-layout>
