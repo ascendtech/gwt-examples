@@ -12,6 +12,11 @@ defaultTasks("build")
 
 subprojects {
 
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     apply(plugin = "java")
     apply(plugin = "net.ltgt.apt")
     apply(plugin = "net.ltgt.apt-idea")
