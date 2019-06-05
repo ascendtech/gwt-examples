@@ -1,3 +1,5 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     resolve: {
         alias: {
@@ -12,26 +14,41 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.(jpg|png)$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "[path][name].[hash].[ext]"
+                    }
+                }
+            },
+            {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [{
+                use: {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
                         outputPath: 'fonts/'
                     }
-                }]
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader'
+                }
             }
         ]
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: './index.html',
+            template: './src/main/webapp/index.html'
+        })
+    ],
     entry: {
         app: ["./src/main/webapp/js/index.js"]
     },
     output: {
-        filename: "bundle.js"
+        filename: '[name].[contenthash].js'
     },
     devServer: {
         port: 8080,
@@ -39,7 +56,8 @@ module.exports = {
             '/service': {
                 target: 'http://localhost:12111',
                 ws: true,
-                changeOrigin: true
+                changeOrigin: true,
+                secure: false
             }
         }
     }

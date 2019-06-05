@@ -12,6 +12,7 @@ import {AgGridVue} from 'ag-grid-vue';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import Highcharts from 'highcharts';
+import 'es7-object-polyfill';
 
 Vue.use(VueRouter);
 
@@ -33,4 +34,5 @@ Vue.component("vueDropzone", vue2Dropzone);
 window.Vue = Vue;
 window.VueRouter = VueRouter;
 window.Highcharts = Highcharts;
+
 
