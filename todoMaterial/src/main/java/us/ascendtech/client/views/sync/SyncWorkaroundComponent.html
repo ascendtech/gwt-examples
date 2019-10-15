@@ -1,21 +1,21 @@
 <v-container fluid>
-    <v-layout row justify-space-between>
-        <v-flex xs12>
+    <v-row>
+        <v-col cols="12">
             <p>Since the <code>sync</code> modifier is not supported in vue-gwt, this component uses the expanded syntax to show the workaround.</p>
             <code>
                 :search-input="search"
-                @update:searchInput="search = (String) $event"
+                @update:search-input="search = (String) $event"
             </code>
-        </v-flex>
-    </v-layout>
-    <v-layout pa-4 row justify-space-between>
-        <v-flex xs12>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12">
             <v-autocomplete
                     v-model="todo"
                     :items="items"
                     :loading="isLoading"
                     :search-input="search"
-                    @update:searchInput="search = (String) $event"
+                    @update:search-input="search = (String) $event"
                     color="primary"
                     item-value="todo"
                     item-text="todo"
@@ -27,7 +27,6 @@
                     return-object
                     v-on:blur="emptyItems"
             ></v-autocomplete>
-        </v-flex>
-    </v-layout>
-
+        </v-col>
+    </v-row>
 </v-container>

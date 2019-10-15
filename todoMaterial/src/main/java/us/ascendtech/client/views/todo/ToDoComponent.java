@@ -50,20 +50,32 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 	@JsMethod
 	void addToTable() {
-		ToDoDTO newToDoDTO = new ToDoDTO();
-		newToDoDTO.todo = inputTodo;
-		rowData.push(newToDoDTO);
-		ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO).subscribe(toDoDTO -> newToDoDTO.id = toDoDTO.id, err);
-		inputTodo = "";
+		if (inputTodo == null || inputTodo.isEmpty()) {
+			error = "Enter some text to add as a to do.";
+			showError = true;
+		}
+		else {
+			ToDoDTO newToDoDTO = new ToDoDTO();
+			newToDoDTO.setTodo(inputTodo);
+			rowData.push(newToDoDTO);
+			ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO).subscribe(toDoDTO -> newToDoDTO.setId(toDoDTO.getId()), err);
+			inputTodo = "";
+		}
 	}
 
 	@JsMethod
 	void removeFromTable() {
-		gridApi.getSelectedRows().forEach((currentValue, index, array) -> {
-			rowData.splice(rowData.indexOf(currentValue), 1);
-			ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.id).subscribe();
-			return null;
-		});
+		if (gridApi.getSelectedRows().length > 0) {
+			gridApi.getSelectedRows().forEach((currentValue, index, array) -> {
+				rowData.splice(rowData.indexOf(currentValue), 1);
+				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId()).subscribe();
+				return null;
+			});
+		}
+		else {
+			error = "Select at least one item to remove.";
+			showError = true;
+		}
 
 	}
 
@@ -95,7 +107,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 	private void calculateTableHeight() {
 		int height = Window.getClientHeight();
-		tableHeight = "height: " + (height - 280) + "px;";
+		tableHeight = "height: " + (height - 310) + "px;";
 	}
 
 	@Override

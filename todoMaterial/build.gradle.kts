@@ -9,6 +9,7 @@ gwt {
     libs.add("elemeneto-core")
     libs.add("ast-highcharts")
     libs.add("ast-aggrid")
+    libs.add("ast-momentjs")
 }
 
 dependencies {

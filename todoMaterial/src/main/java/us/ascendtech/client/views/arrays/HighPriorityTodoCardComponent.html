@@ -1,0 +1,31 @@
+<v-card
+        class="ma-1"
+>
+    <v-card-title class="subtitle-1">
+        <v-btn
+                depressed
+                small
+                :color="highPriorityColor"
+                title="To Do"
+                @click.native="togglePrimary"
+                style="min-width:30px !important; margin-right: 5px"
+        >
+            HP
+        </v-btn>
+        <v-text-field
+                outlined
+                hide-details
+                color="primary"
+                v-model="todo"
+        >
+        </v-text-field>
+        <v-btn
+                icon
+                color="error"
+                title="Remove To Do"
+                @click.stop="removeToDo"
+        >
+            <v-icon>delete_forever</v-icon>
+        </v-btn>
+    </v-card-title>
+</v-card>

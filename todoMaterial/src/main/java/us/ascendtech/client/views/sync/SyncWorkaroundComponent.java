@@ -7,7 +7,6 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
 
@@ -24,7 +23,6 @@ public class SyncWorkaroundComponent implements IsVueComponent {
 	ToDoDTO todo;
 
 	@Data
-	@JsProperty
 	JsArray<ToDoDTO> items = new JsArray<>();
 
 	@Watch("search")
@@ -39,7 +37,7 @@ public class SyncWorkaroundComponent implements IsVueComponent {
 
 	@JsMethod
 	void emptyItems() {
-		items = new JsArray<>();
+		items.splice(0, items.length);
 	}
 
 }

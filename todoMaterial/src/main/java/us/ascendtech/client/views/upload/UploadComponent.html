@@ -1,12 +1,12 @@
 <v-container fluid>
-    <v-layout row>
-        <v-flex xs12>
+    <v-row>
+        <v-col cols="12">
             <div slot="header">Upload</div>
             <vue-dropzone style="margin:15px" ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
                           @vdropzone-success="onSuccess">
             </vue-dropzone>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 
     <v-snackbar
             v-model="showMessage"

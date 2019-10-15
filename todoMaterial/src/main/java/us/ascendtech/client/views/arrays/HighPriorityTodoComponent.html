@@ -1,0 +1,31 @@
+<vue-gwt:import class="us.ascendtech.client.dto.ToDoDTO"/>
+
+<v-container fluid>
+    <p>This is to show an example usage for unshift and push to JsArray. It's important to set the 'key' attribute on your child component with a unique value
+        when using unshift in particular. More info <a href="https://vuejs.org/v2/guide/list.html#Maintaining-State" target="_blank">here</a>.</p>
+    <v-row>
+        <v-col cols="12">
+            <v-btn
+                    color="secondary"
+                    title="Unshift"
+                    @click.native="unshift"
+            >
+                Unshift
+            </v-btn>
+            <v-btn
+                    color="secondary"
+                    title="Push"
+                    @click.native="push"
+            >
+                Push
+            </v-btn>
+        </v-col>
+    </v-row>
+    <v-row>
+        <template v-for="(ToDoDTO item, i) in todos">
+            <v-col cols="12">
+                <high-priority-todo-card :key="item.getUuid()" @remove-todo="removeToDo" :item="item"></high-priority-todo-card>
+            </v-col>
+        </template>
+    </v-row>
+</v-container>
