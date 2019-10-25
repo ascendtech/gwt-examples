@@ -4,8 +4,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "4.0.3" apply false
     id("net.ltgt.apt") version "0.19" apply false
     id("net.ltgt.apt-idea") version "0.19" apply false
-    id("us.ascendtech.gwt.lib") version "0.4.20" apply false
-    id("us.ascendtech.gwt.modern") version "0.4.20" apply false
+    id("us.ascendtech.gwt.lib") version "0.4.21" apply false
+    id("us.ascendtech.gwt.modern") version "0.4.21" apply false
 }
 
 defaultTasks("build")
@@ -29,6 +29,9 @@ subprojects {
         mavenCentral()
         flatDir {
             dirs(rootProject.file("notInMaven"))
+        }
+        maven {
+            url = uri("https://maven.ascend-tech.us/repo")
         }
     }
 
