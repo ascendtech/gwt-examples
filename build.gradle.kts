@@ -1,11 +1,9 @@
 plugins {
     java
-    idea
-    id("com.github.johnrengelman.shadow") version "4.0.3" apply false
-    id("net.ltgt.apt") version "0.19" apply false
-    id("net.ltgt.apt-idea") version "0.19" apply false
-    id("us.ascendtech.gwt.lib") version "0.4.21" apply false
-    id("us.ascendtech.gwt.modern") version "0.4.21" apply false
+
+    id("com.github.johnrengelman.shadow") version "5.2.0" apply false
+    id("us.ascendtech.gwt.lib") version "0.4.35" apply false
+    id("us.ascendtech.gwt.modern") version "0.4.35" apply false
 }
 
 defaultTasks("build")
@@ -13,8 +11,7 @@ defaultTasks("build")
 subprojects {
 
     apply(plugin = "java")
-    apply(plugin = "net.ltgt.apt")
-    apply(plugin = "net.ltgt.apt-idea")
+
 
     java {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -47,8 +44,8 @@ subprojects {
         options.compilerArgs.add("-parameters")
     }
     dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
     }
 
     sourceSets {
@@ -62,8 +59,6 @@ subprojects {
         }
     }
 
-    idea.module {
-        resourceDirs = resourceDirs - file("src/main/java")
-    }
+
 
 }
