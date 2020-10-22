@@ -9,6 +9,7 @@
     <inherits name="com.google.gwt.event.EventBase"/>
     <inherits name="us.ascendtech.AGGrid"/>
     <inherits name="us.ascendtech.highcharts.Highcharts"/>
+    <inherits name="org.jboss.elemento.Core"/>
 
     <entry-point class='us.ascendtech.client.ToDo'/>
 

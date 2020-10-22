@@ -10,8 +10,10 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
 import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
+import org.jboss.elemento.Elements;
 import us.ascendtech.client.aggrid.AgReadyEvent;
 import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
@@ -98,6 +100,10 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
 
+		// this is not used for anything, just showing how to iterate through a JsArray
+		for (ToDoDTO toDoDTO : Elements.elements(rowData)) {
+			DomGlobal.console.log(toDoDTO);
+		}
 	}
 
 	@Override

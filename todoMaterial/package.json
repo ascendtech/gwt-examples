@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@mdi/font": "^5.6.55",
-    "ag-grid-community": "^23.0.1",
-    "ag-grid-vue": "^23.0.0",
+    "ag-grid-community": "^23.0.2",
+    "ag-grid-vue": "^23.0.2",
     "core-js": "^3.6.5",
     "es7-object-polyfill": "^1.0.1",
     "highcharts": "^8.2.0",
