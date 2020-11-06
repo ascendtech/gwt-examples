@@ -1,4 +1,4 @@
-package us.ascendtech.client.views.arrays;
+package us.ascendtech.client.views.collections;
 
 import com.axellience.vuegwt.core.annotations.component.Component;
 import com.axellience.vuegwt.core.annotations.component.Data;
@@ -6,13 +6,21 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsProperty;
 import us.ascendtech.client.dto.ToDoDTO;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component(components = HighPriorityTodoCardComponent.class)
 public class HighPriorityTodoComponent implements IsVueComponent {
 
 	@Data
 	JsArray<ToDoDTO> todos = new JsArray<>();
+
+	@JsProperty
+	@Data
+	Map<String, ToDoDTO> todosMap = new HashMap<>();
 
 	@JsMethod
 	void unshift() {
@@ -28,6 +36,17 @@ public class HighPriorityTodoComponent implements IsVueComponent {
 		toDoDTO.setUuid(generateId());
 		todos.push(toDoDTO);
 		DomGlobal.console.log("TODOs", todos);
+	}
+
+	@JsMethod
+	void generateMap() {
+
+		for (int i = 0; i < 5; i++) {
+			ToDoDTO toDoDTO = new ToDoDTO();
+			toDoDTO.setTodo("Item number (" + i + ")");
+			todosMap.put(i + "", toDoDTO);
+		}
+
 	}
 
 	@JsMethod

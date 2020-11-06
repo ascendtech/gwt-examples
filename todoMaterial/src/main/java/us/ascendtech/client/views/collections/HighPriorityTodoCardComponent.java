@@ -1,4 +1,4 @@
-package us.ascendtech.client.views.arrays;
+package us.ascendtech.client.views.collections;
 
 import com.axellience.vuegwt.core.annotations.component.Component;
 import com.axellience.vuegwt.core.annotations.component.Computed;

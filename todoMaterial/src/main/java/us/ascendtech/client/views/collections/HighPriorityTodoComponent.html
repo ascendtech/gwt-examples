@@ -28,4 +28,25 @@
             </v-col>
         </template>
     </v-row>
+    <div style="margin-top: 15px">
+        <p>An example of Generating and iterating through a map</p>
+        <v-row>
+            <v-col cols="12">
+                <v-btn
+                        color="secondary"
+                        title="Generate Map"
+                        @click.native="generateMap"
+                >
+                    Generate Map
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <template v-for="(String key, i) in todosMap.keySet()">
+                <v-col cols="12">
+                    <p>{{key + " - " + todosMap.get(key).getTodo()}}</p>
+                </v-col>
+            </template>
+        </v-row>
+    </div>
 </v-container>

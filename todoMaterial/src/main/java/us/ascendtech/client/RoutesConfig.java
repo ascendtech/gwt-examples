@@ -8,8 +8,8 @@ import com.axellience.vueroutergwt.client.RouterOptions;
 import com.axellience.vueroutergwt.client.VueRouter;
 import jsinterop.annotations.JsFunction;
 import jsinterop.base.JsPropertyMap;
-import us.ascendtech.client.views.arrays.HighPriorityTodoComponentFactory;
 import us.ascendtech.client.views.charts.ChartComponentFactory;
+import us.ascendtech.client.views.collections.HighPriorityTodoComponentFactory;
 import us.ascendtech.client.views.home.HomeComponentFactory;
 import us.ascendtech.client.views.sync.SyncWorkaroundComponentFactory;
 import us.ascendtech.client.views.todo.ToDoComponentFactory;
@@ -31,7 +31,8 @@ public class RoutesConfig implements CustomizeOptions {
 		routerOptions.addRoute(new RouteConfig().setPath("/chart").setName("chart").setComponent(ChartComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/upload").setName("upload").setComponent(UploadComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/sync").setName("sync").setComponent(SyncWorkaroundComponentFactory.get().getJsConstructor()));
-		routerOptions.addRoute(new RouteConfig().setPath("/arrays").setName("arrays").setComponent(HighPriorityTodoComponentFactory.get().getJsConstructor()));
+		routerOptions.addRoute(
+				new RouteConfig().setPath("/collections").setName("collections").setComponent(HighPriorityTodoComponentFactory.get().getJsConstructor()));
 
 		// We need to create our router
 		VueRouter vueRouter = new VueRouter(routerOptions);
