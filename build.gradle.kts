@@ -2,8 +2,8 @@ plugins {
     java
 
     id("com.github.johnrengelman.shadow") version "5.2.0" apply false
-    id("us.ascendtech.gwt.lib") version "0.5.4" apply false
-    id("us.ascendtech.gwt.modern") version "0.5.4" apply false
+    id("us.ascendtech.gwt.lib") version "0.5.5" apply false
+    id("us.ascendtech.gwt.modern") version "0.5.5" apply false
 }
 
 defaultTasks("build")
