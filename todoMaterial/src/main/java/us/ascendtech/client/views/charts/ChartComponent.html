@@ -1,8 +1,11 @@
 <v-container fluid>
     <v-row>
-        <v-col cols="12">
+        <v-col sm="12" md="8" offset-md="2">
             <v-btn color="secondary" v-on:click="createChart">Create Chart</v-btn>
             <div class="mt-2" id="columnChart"></div>
+        </v-col>
+        <v-col sm="12" md="8" offset-md="2">
+            <div class="mt-2" id="mySVGChart"></div>
         </v-col>
     </v-row>
 </v-container>

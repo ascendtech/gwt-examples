@@ -14,6 +14,7 @@ import '../../../../node_modules/ag-grid-community/dist/styles/ag-theme-material
 import {AgGridVue} from 'ag-grid-vue';
 import Highcharts from 'highcharts';
 import 'es7-object-polyfill';
+import moment from 'moment';
 
 Vue.use(Vuetify);
 
@@ -26,5 +27,6 @@ window.Vue = Vue;
 window.Vuetify = Vuetify;
 window.VueRouter = VueRouter;
 window.Highcharts = Highcharts;
+window.Moment = moment;
 
 
