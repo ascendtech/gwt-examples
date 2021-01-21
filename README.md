@@ -10,7 +10,7 @@ cd rest && ../gradlew run
 
 Run frontend in dev mode (requires 3 different terminals)
 ```bash
-cd todoMaterial && ../gradlew webpackDev
+cd todoMaterial && ../gradlew webpackDev5
 cd todoMaterial && ../gradlew gwtDev
 cd todoMaterial && ../gradlew --build-cache -t compileJava
 ```
