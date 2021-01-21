@@ -74,10 +74,11 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Demo</v-toolbar-title>
     </v-app-bar>
-    <v-content>
+    <v-main>
         <router-view></router-view>
-    </v-content>
+    </v-main>
     <v-footer color="primary" app>
-        <a href="http://www.ascend-tech.us" class="white--text" style="text-decoration: none; margin-left: 5px">Backed by Ascendant Software Technology, LLC</a>
+        <a href="http://www.ascend-tech.us" class="white--text" style="text-decoration: none; margin-left: 5px">© {{currentYear}} Backed by Ascendant Software
+            Technology, LLC</a>
     </v-footer>
 </v-app>
