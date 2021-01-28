@@ -4,6 +4,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "6.1.0" apply false
     id("us.ascendtech.gwt.lib") version "0.5.18" apply false
     id("us.ascendtech.gwt.modern") version "0.5.18" apply false
+    id("io.micronaut.application") version "1.3.2" apply false
 }
 
 defaultTasks("build")
