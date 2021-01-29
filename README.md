@@ -8,7 +8,7 @@ cd rest && ../gradlew run
 ```
 
 Create Docker of REST Serivce
-```
+```bash
 #make sure your user is in the docker group or has permissions to docker service
 cd rest && ../gradlew dockerBuild
 docker run -p 12111:12111 rest
