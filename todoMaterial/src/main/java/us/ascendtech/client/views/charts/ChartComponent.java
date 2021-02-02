@@ -10,7 +10,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.base.JsPropertyMap;
 import us.ascendtech.highcharts.client.ChartOptions;
 import us.ascendtech.highcharts.client.Highcharts;
-import us.ascendtech.highcharts.client.Renderer;
+import us.ascendtech.highcharts.client.SVGRenderer;
 import us.ascendtech.highcharts.client.chartoptions.Title;
 import us.ascendtech.highcharts.client.chartoptions.chart.Chart;
 import us.ascendtech.highcharts.client.chartoptions.chart.ChartEvents;
@@ -42,7 +42,7 @@ public class ChartComponent implements IsVueComponent {
 		columnChart = Highcharts.chart("columnChart", chartOptions);
 
 		try {
-			Renderer renderer = Highcharts.chart("mySVGChart", new ChartOptions().setTitle(new Title().setText("Raw SVG Example"))).getRenderer();
+			SVGRenderer renderer = Highcharts.chart("mySVGChart", new ChartOptions().setTitle(new Title().setText("Raw SVG Example"))).getRenderer();
 			JsPropertyMap<Object> rectAttrs = JsUtils.map("fill", "blue");
 			rectAttrs.set("stroke", "black");
 			rectAttrs.set("stroke-width", 1);
@@ -50,7 +50,10 @@ public class ChartComponent implements IsVueComponent {
 			JsPropertyMap<Object> circleAttrs = JsUtils.map("fill", "red");
 			circleAttrs.set("stroke", "black");
 			circleAttrs.set("stroke-width", 1);
-			renderer.circle(100, 100, 50).attr(circleAttrs).add();
+			renderer.circle(100, 100, 50).attr(circleAttrs).on("click", () -> {
+				DomGlobal.confirm("Clicked circle!");
+				return true;
+			}).add();
 			JsPropertyMap<Object> textAttrs = JsUtils.map("rotation", 45);
 			JsPropertyMap<Object> css = JsUtils.map("fontSize", "16pt");
 			css.set("color", "green");
