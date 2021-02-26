@@ -33,4 +33,8 @@ cd rest && ../gradlew shadowJar
 
 #copy to archive in build/webapp to nginx or apache
 cd todoMaterial && ../gradlew gwtArchive
+
+#OR use docker
+docker build . -t todomaterial:latest
+docker run -p 80:80 todomaterial
 ```
