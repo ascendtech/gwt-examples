@@ -17,9 +17,9 @@ docker run -p 12111:12111 rest
 
 Run frontend in dev mode (requires 3 different terminals)
 ```bash
-cd todoMaterial && ../gradlew webpackDev5
+cd todoMaterial && ../gradlew webpack5Dev
 cd todoMaterial && ../gradlew gwtDev
-cd todoMaterial && ../gradlew --build-cache -t compileJava
+cd todoMaterial && ../gradlew compileJava --build-cache -t
 ```
 Open browser to http://localhost:8888/
 
