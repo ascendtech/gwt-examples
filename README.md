@@ -15,7 +15,7 @@ cd todoMaterial && ../gradlew compileJava --build-cache -t
 ```
 Open browser to http://localhost:8888/
 
-Alternatively, you could also use the REST service using docker:
+Alternatively, you could also run the REST service using docker:
 ```bash
 #make sure your user is in the docker group or has permissions to docker service
 cd rest && ../gradlew dockerBuild
