@@ -7,14 +7,6 @@ Run REST service
 cd rest && ../gradlew run
 ```
 
-Create Docker of REST Serivce
-```bash
-#make sure your user is in the docker group or has permissions to docker service
-cd rest && ../gradlew dockerBuild
-docker run -p 12111:12111 rest
-```
-
-
 Run frontend in dev mode (requires 3 different terminals)
 ```bash
 cd todoMaterial && ../gradlew webpack5Dev
@@ -23,6 +15,12 @@ cd todoMaterial && ../gradlew compileJava --build-cache -t
 ```
 Open browser to http://localhost:8888/
 
+Alternatively, you could also use the REST service using docker:
+```bash
+#make sure your user is in the docker group or has permissions to docker service
+cd rest && ../gradlew dockerBuild
+docker run -p 12111:12111 rest
+```
 
 In dev mode a refresh will recompile GWT, CSS, JS, and webpack changes.
 
