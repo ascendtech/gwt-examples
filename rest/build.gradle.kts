@@ -27,7 +27,7 @@ tasks.withType<ShadowJar> {
 }
 
 
-tasks.withType<io.micronaut.gradle.docker.MicronautDockerfile>() {
+tasks.withType<io.micronaut.gradle.docker.MicronautDockerfile> {
     exposedPorts.add(12111)
 }
 
@@ -35,11 +35,13 @@ tasks.withType<io.micronaut.gradle.docker.MicronautDockerfile>() {
 dependencies {
 
     implementation("com.google.guava:guava:27.1-jre")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-jul:$log4jVersion")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
 
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
