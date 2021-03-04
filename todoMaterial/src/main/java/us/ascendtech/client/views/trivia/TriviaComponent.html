@@ -1,0 +1,81 @@
+<v-container fluid>
+    <v-row>
+        <v-col>
+            <v-card elevation="3">
+                <v-card-title
+                        style="word-break: normal"
+                        v-html="question.getQuestion()"
+                ></v-card-title>
+                <v-card-text>
+                    <v-card-title style="word-break: normal"
+                    >Category: {{ question.getCategory() }}
+                    </v-card-title
+                    >
+                    <v-card-title>Difficulty: {{ question.getDifficulty() }}</v-card-title>
+                    <v-divider class="mx-4"></v-divider>
+                    <v-list dense>
+                        <v-list-item-title>Choices</v-list-item-title>
+                        <v-list-item-group
+                                active-class="deep-purple--text text--accent-4"
+                                v-model="selection"
+                                ref="choicesList"
+                        >
+                            <v-list-item
+                                    :disabled="!awaitingAnswer"
+                                    :color='
+                  awaitingAnswer
+                    ? "black"
+                    : (oldSelection == index
+                    ? "red"
+                    : "black")
+                '
+                                    :key="index"
+                                    :value="index"
+                                    v-for="(String item, index) in choices"
+                            >
+                                <v-list-item-content>
+                                    <v-list-item-title v-html="item"></v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </v-card-text>
+                <v-row align="center" justify="space-around">
+                    <v-btn
+                            :disabled="!awaitingAnswer"
+                            color="primary"
+                            depressed
+                            @click="answer"
+                            ref="answer_button"
+                    >
+                        Answer
+                    </v-btn>
+                    <v-btn
+                            :disabled="awaitingAnswer"
+                            color="primary"
+                            depressed
+                            @click="next"
+                            ref="next_button"
+                    >
+                        Next
+                    </v-btn>
+                </v-row>
+            </v-card>
+        </v-col>
+        <v-col>
+            <v-spacer/>
+        </v-col>
+    </v-row>
+    <div id="error">
+        <v-snackbar
+                color="error"
+                right="right"
+                v-model="showError"
+                top="top"
+        >
+            {{ error }}
+            <v-btn @click.native="showError = false" color="white" text>Close</v-btn>
+        </v-snackbar>
+    </div>
+
+</v-container>

@@ -13,14 +13,10 @@ import us.ascendtech.client.views.collections.HighPriorityTodoComponentFactory;
 import us.ascendtech.client.views.home.HomeComponentFactory;
 import us.ascendtech.client.views.sync.SyncWorkaroundComponentFactory;
 import us.ascendtech.client.views.todo.ToDoComponentFactory;
+import us.ascendtech.client.views.trivia.TriviaComponentFactory;
 import us.ascendtech.client.views.upload.UploadComponentFactory;
 
 public class RoutesConfig implements CustomizeOptions {
-
-	@JsFunction
-	public interface Props {
-		JsPropertyMap<String> prop(Route route);
-	}
 
 	@Override
 	public void customizeOptions(VueComponentOptions componentOptions) {
@@ -31,6 +27,7 @@ public class RoutesConfig implements CustomizeOptions {
 		routerOptions.addRoute(new RouteConfig().setPath("/chart").setName("chart").setComponent(ChartComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/upload").setName("upload").setComponent(UploadComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(new RouteConfig().setPath("/sync").setName("sync").setComponent(SyncWorkaroundComponentFactory.get().getJsConstructor()));
+		routerOptions.addRoute(new RouteConfig().setPath("/trivia").setName("trivia").setComponent(TriviaComponentFactory.get().getJsConstructor()));
 		routerOptions.addRoute(
 				new RouteConfig().setPath("/collections").setName("collections").setComponent(HighPriorityTodoComponentFactory.get().getJsConstructor()));
 
@@ -39,5 +36,10 @@ public class RoutesConfig implements CustomizeOptions {
 
 		// And set it on our Component options
 		componentOptions.set("router", vueRouter);
+	}
+
+	@JsFunction
+	public interface Props {
+		JsPropertyMap<String> prop(Route route);
 	}
 }

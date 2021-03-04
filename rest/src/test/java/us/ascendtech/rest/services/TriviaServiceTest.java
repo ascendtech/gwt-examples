@@ -7,8 +7,7 @@ import us.ascendtech.rest.dto.TriviaQuestion;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TriviaServiceTest {
 
@@ -57,5 +56,21 @@ class TriviaServiceTest {
         assertTrue(service.setCategory(key));
         final var finalKey = key; // gets rid of a warning, don't ask me.
         service.getQuestions().forEach(question -> assertEquals(service.getCategories().get(finalKey), question.getCategory()));
+    }
+
+    @Test
+    void getQuestion() {
+        var question = service.getQuestion();
+        assertNotNull(question);
+
+        var secondService = new TriviaService();
+        for (var i = 0; i < 2 * TriviaService.getNumQuestions(); i++) {
+            question = secondService.getQuestion();
+            assertNotNull(question);
+            assertNotNull(question.getCorrectAnswer());
+            assertNotNull(question.getIncorrectAnswers());
+            assertFalse(question.getCorrectAnswer().isEmpty());
+            assertEquals(3, question.getIncorrectAnswers().size());
+        }
     }
 }

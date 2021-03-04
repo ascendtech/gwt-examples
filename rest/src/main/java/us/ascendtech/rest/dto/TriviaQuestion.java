@@ -2,28 +2,40 @@ package us.ascendtech.rest.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Vector;
+import java.util.List;
+import java.util.Objects;
 
 public class TriviaQuestion {
     private String category;
-    private String type;
     private Difficulty difficulty;
     private String question;
     @SerializedName("correct_answer")
     private String correctAnswer;
     @SerializedName("incorrect_answers")
-    private Vector<String> incorrectAnswers;
+    private List<String> incorrectAnswers;
 
     @Override
     public String toString() {
         return "TriviaQuestion{" +
                 "category='" + category + '\'' +
-                ", type='" + type + '\'' +
                 ", difficulty=" + difficulty +
                 ", question='" + question + '\'' +
                 ", correctAnswer='" + correctAnswer + '\'' +
                 ", incorrectAnswers=" + incorrectAnswers +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TriviaQuestion that = (TriviaQuestion) o;
+        return Objects.equals(question, that.question);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(question);
     }
 
     public String getCategory() {
@@ -32,14 +44,6 @@ public class TriviaQuestion {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Difficulty getDifficulty() {
@@ -66,11 +70,11 @@ public class TriviaQuestion {
         this.correctAnswer = correctAnswer;
     }
 
-    public Vector<String> getIncorrectAnswers() {
+    public List<String> getIncorrectAnswers() {
         return incorrectAnswers;
     }
 
-    public void setIncorrectAnswers(Vector<String> incorrectAnswers) {
+    public void setIncorrectAnswers(List<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
     }
 

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.ascendtech.rest.dto.TriviaQuestion;
 
+import javax.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
 
+@Singleton
 public class TriviaService {
     static final Logger LOG = LoggerFactory.getLogger(TriviaService.class);
     private static final String sessionUri = "https://opentdb.com/api_token.php?command=request";
@@ -62,19 +64,33 @@ public class TriviaService {
         LOG.debug(String.format("Categories: %d", response.triviaCategories.length));
     }
 
-    public int getQuestionIndex() {
-        return questionIndex;
-    }
-
     public Vector<TriviaQuestion> getQuestions() {
         return questions;
+    }
+
+    public TriviaQuestion getQuestion() {
+        if (this.session == null || this.session.isEmpty()) {
+            start();
+        }
+        if (questionIndex >= questions.size() - 1) {
+            try {
+                fetchQuestions();
+                questionIndex = 0;
+            } catch (IOException ioe) {
+                LOG.debug(ioe.getMessage());
+                return null;
+            }
+        } else {
+            questionIndex = questionIndex + 1;
+        }
+        return questions.elementAt(questionIndex);
     }
 
     public boolean start() {
         try {
             this.initializeSession();
-            this.fetchQuestions();
             this.fetchCategories();
+            this.fetchQuestions();
         } catch (IOException ioe) {
             LOG.debug(ioe.getMessage());
             return false;
@@ -120,6 +136,9 @@ public class TriviaService {
         var reader = new BufferedReader(new InputStreamReader(new URL(sessionUri).openStream()));
         var gson = new Gson();
         var response = gson.fromJson(reader.readLine(), SessionResponse.class);
+        if (response.responseCode != 0) {
+            throw new IOException("Token response code: " + response.responseCode);
+        }
         this.session = response.token;
         LOG.debug(String.format("Session: %s", response.toString()));
     }
@@ -135,6 +154,10 @@ public class TriviaService {
         return queryString;
     }
 
+    /**
+     * Gets questions from the database. Note that this may fail if the session token is too old.
+     * @throws IOException If the site returned an error
+     */
     private void fetchQuestions() throws IOException {
         var queryString = this.buildQueryString();
         LOG.debug(String.format("Query: %s", queryString));
@@ -143,6 +166,9 @@ public class TriviaService {
         var reader = new BufferedReader(new InputStreamReader(new URL(queryString).openStream()));
         Gson gson = new Gson();
         var response = gson.fromJson(reader.readLine(), QuestionsResults.class);
+        if (response.responseCode != 0) {
+            throw new IOException("Questions response code: " + response.responseCode);
+        }
         this.questions.clear();
         Collections.addAll(this.questions, response.results);
         LOG.debug(String.format("Questions: %s", response.toString()));
@@ -159,7 +185,9 @@ public class TriviaService {
     }
 
     private static class SessionResponse {
+        @SerializedName("response_code")
         public int responseCode;
+        @SerializedName("response_message")
         public String responseMessage;
         public String token;
 
@@ -174,6 +202,7 @@ public class TriviaService {
     }
 
     private static class QuestionsResults {
+        @SerializedName("response_code")
         public int responseCode;
         public TriviaQuestion[] results;
 
