@@ -5,13 +5,11 @@ import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
 import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
-import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
 import org.jboss.elemento.Elements;
 import us.ascendtech.client.aggrid.AgReadyEvent;
@@ -19,15 +17,12 @@ import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
+import us.ascendtech.gwt.simplerest.client.CompletableCallback;
+import us.ascendtech.gwt.simplerest.client.MultipleCallback;
+import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
 @Component
 public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated, ResizeHandler {
-
-	private Consumer<Throwable> err = e -> {
-		GWT.log("exception: " + e, e);
-		error = e.getMessage();
-		showError = true;
-	};
 
 	@Data
 	String error;
@@ -42,7 +37,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 	GridApi<ToDoDTO> gridApi;
 
 	@Data
-	JsArray<ColumnDefinition> columnDefs = new JsArray<>();
+	JsArray<ColumnDefinition<ToDoDTO>> columnDefs = new JsArray<>();
 
 	@Data
 	JsArray<ToDoDTO> rowData = new JsArray<>();
@@ -60,7 +55,18 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 			ToDoDTO newToDoDTO = new ToDoDTO();
 			newToDoDTO.setTodo(inputTodo);
 			rowData.push(newToDoDTO);
-			ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO).subscribe(toDoDTO -> newToDoDTO.setId(toDoDTO.getId()), err);
+			ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO, new SingleCallback<ToDoDTO>() {
+				@Override
+				public void onData(ToDoDTO data) {
+					newToDoDTO.setId(data.getId());
+				}
+
+				@Override
+				public void onError(int statusCode, String status, String errorBody) {
+					error = errorBody;
+					showError = true;
+				}
+			});
 			inputTodo = "";
 		}
 	}
@@ -70,7 +76,19 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 		if (gridApi.getSelectedRows().length > 0) {
 			gridApi.getSelectedRows().forEach((currentValue, index, array) -> {
 				rowData.splice(rowData.indexOf(currentValue), 1);
-				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId()).subscribe();
+				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId(), new CompletableCallback() {
+					@Override
+					public void onDone() {
+
+					}
+
+					@Override
+					public void onError(int statusCode, String status, String errorBody) {
+						error = errorBody;
+						showError = true;
+					}
+
+				});
 				return null;
 			});
 		}
@@ -98,7 +116,18 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 		rowData = new JsArray<>();
 
-		ServiceProvider.get().getTodoServiceClient().getCurrentToDos().subscribe(n -> rowData.push(n), err);
+		ServiceProvider.get().getTodoServiceClient().getCurrentToDos(new MultipleCallback<ToDoDTO>() {
+			@Override
+			public void onData(ToDoDTO[] data) {
+				rowData.push(data);
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 
 		// this is not used for anything, just showing how to iterate through a JsArray
 		for (ToDoDTO toDoDTO : Elements.elements(rowData)) {
