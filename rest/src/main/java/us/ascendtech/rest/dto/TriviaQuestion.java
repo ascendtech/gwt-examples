@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TriviaQuestion {
     private String category;
@@ -88,6 +89,22 @@ public class TriviaQuestion {
 
         Difficulty(String name) {
             this.name = name;
+        }
+
+        public static Optional<Difficulty> fromString(String difficulty) {
+            var lowerDifficulty = difficulty.toLowerCase();
+            switch (lowerDifficulty) {
+                case "all":
+                    return Optional.of(ALL);
+                case "easy":
+                    return Optional.of(EASY);
+                case "medium":
+                    return Optional.of(MEDIUM);
+                case "hard":
+                    return Optional.of(HARD);
+                default:
+                    return Optional.empty();
+            }
         }
 
         public String toString() {

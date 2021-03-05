@@ -27,12 +27,12 @@ public class TriviaService {
     private final HashMap<Integer, String> categories;
     private String session;
     private TriviaQuestion.Difficulty difficulty;
-    private Integer category;
+    private int category;
     private int questionIndex;
 
     public TriviaService() {
         this.difficulty = TriviaQuestion.Difficulty.ALL;
-        this.category = null;
+        this.category = 0;
         this.questionIndex = 0;
         this.questions = new Vector<>();
         this.categories = new HashMap<>();
@@ -59,7 +59,7 @@ public class TriviaService {
         var gson = new Gson();
         var response = gson.fromJson(reader.readLine(), CategoriesResponse.class);
         this.categories.clear();
-        this.categories.put(null, "All");
+        this.categories.put(0, "All");
         Arrays.stream(response.triviaCategories).forEach(category -> this.categories.put(category.id, category.name));
         LOG.debug(String.format("Categories: %d", response.triviaCategories.length));
     }
@@ -148,7 +148,7 @@ public class TriviaService {
         if (this.difficulty != TriviaQuestion.Difficulty.ALL) {
             queryString += String.format("&difficulty=%s", this.difficulty.toString());
         }
-        if (this.category != null) {
+        if (this.category != 0) {
             queryString += String.format("&category=%d", this.category);
         }
         return queryString;

@@ -1,6 +1,17 @@
 <v-container fluid>
     <v-row>
         <v-col>
+            <v-select :items="difficulties" label="Difficulty" v-model="difficulty">
+
+            </v-select>
+        </v-col>
+        <v-col>
+            <v-select :items="categories" item-text="name" item-value="id" label="Category" v-model="category">
+            </v-select>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col>
             <v-card elevation="3">
                 <v-card-title
                         style="word-break: normal"
@@ -9,19 +20,17 @@
                 <v-card-text>
                     <v-card-title style="word-break: normal"
                     >Category: {{ question.getCategory() }}
-                    </v-card-title
-                    >
+                    </v-card-title>
                     <v-card-title>Difficulty: {{ question.getDifficulty() }}</v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-list dense>
                         <v-list-item-title>Choices</v-list-item-title>
                         <v-list-item-group
                                 active-class="deep-purple--text text--accent-4"
-                                v-model="selection"
                                 ref="choicesList"
+                                v-model="selection"
                         >
                             <v-list-item
-                                    :disabled="!awaitingAnswer"
                                     :color='
                   awaitingAnswer
                     ? "black"
@@ -29,6 +38,7 @@
                     ? "red"
                     : "black")
                 '
+                                    :disabled="!awaitingAnswer"
                                     :key="index"
                                     :value="index"
                                     v-for="(String item, index) in choices"
@@ -43,18 +53,18 @@
                 <v-row align="center" justify="space-around">
                     <v-btn
                             :disabled="!awaitingAnswer"
+                            @click="answer"
                             color="primary"
                             depressed
-                            @click="answer"
                             ref="answer_button"
                     >
                         Answer
                     </v-btn>
                     <v-btn
                             :disabled="awaitingAnswer"
+                            @click="next"
                             color="primary"
                             depressed
-                            @click="next"
                             ref="next_button"
                     >
                         Next
@@ -70,8 +80,8 @@
         <v-snackbar
                 color="error"
                 right="right"
-                v-model="showError"
                 top="top"
+                v-model="showError"
         >
             {{ error }}
             <v-btn @click.native="showError = false" color="white" text>Close</v-btn>
