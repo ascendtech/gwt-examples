@@ -14,12 +14,13 @@ import jsinterop.annotations.JsMethod;
 import us.ascendtech.client.dto.TriviaCategoryDTO;
 import us.ascendtech.client.dto.TriviaQuestionDTO;
 import us.ascendtech.client.services.ServiceProvider;
+import us.ascendtech.client.views.players.PlayersComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+@Component(components = { PlayersComponent.class })
 public class TriviaComponent implements IsVueComponent, HasBeforeMount, HasMounted {
 
 	@Data

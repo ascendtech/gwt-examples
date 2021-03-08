@@ -18,6 +18,7 @@ public class ServiceProvider {
 
 	private final ToDoServiceClient todoServiceClient;
 	private final TriviaServiceClient triviaServiceClient;
+	private final PlayersServiceClient playersServiceClient;
 
 	private static ResourceVisitor osm() {
 		String baseUrl = DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host;
@@ -27,6 +28,7 @@ public class ServiceProvider {
 	private ServiceProvider() {
 		todoServiceClient = new ToDoServiceClient_RestServiceModel(ServiceProvider::osm);
 		triviaServiceClient = new TriviaServiceClient_RestServiceModel(ServiceProvider::osm);
+		playersServiceClient = new PlayersServiceClient_RestServiceModel(ServiceProvider::osm);
 	}
 
 	public ToDoServiceClient getTodoServiceClient() {
@@ -35,6 +37,10 @@ public class ServiceProvider {
 
 	public TriviaServiceClient getTriviaServiceClient() {
 		return triviaServiceClient;
+	}
+
+	public PlayersServiceClient getPlayersServiceClient() {
+		return playersServiceClient;
 	}
 
 }
