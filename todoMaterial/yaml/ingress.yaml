@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: service-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  defaultBackend:
+    service:
+      name: todomaterial-service 
+      port: 
+        number: 80

@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::236864801136:oidc-provider/oidc.eks.us-gov-west-1.amazonaws.com/id/0E8A8C6D6EB164A1FEA70836B0695F2B"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.us-west-2.amazonaws.com/id/0E8A8C6D6EB164A1FEA70836B0695F2B:sub": "system:serviceaccount:kube-system:aws-node"
+        }
+      }
+    }
+  ]
+}

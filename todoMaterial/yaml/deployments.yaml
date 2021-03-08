@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todomaterial
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todomaterial
+  template:
+    metadata:
+      labels:
+        app: todomaterial
+    spec:
+      containers:
+        - name: todomaterial
+          image: 236864801136.dkr.ecr.us-gov-west-1.amazonaws.com/todomaterial:latest
+          tty: true
+          imagePullPolicy: Always
+          ports:
+            - name: nginx
+              containerPort: 80
+              hostPort: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi 
+
