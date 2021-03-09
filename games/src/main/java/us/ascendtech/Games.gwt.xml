@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='games'>
+    <inherits name='com.axellience.vuegwt.VueGWT'/>
+    <inherits name='com.axellience.vueroutergwt.VueRouterGwt'/>
+    <inherits name="com.intendia.gwt.autorest.AutoRest"/>
+    <inherits name="com.google.web.bindery.event.Event"/>
+    <inherits name="com.google.gwt.event.logical.LogicalEvent"/>
+    <inherits name="com.google.gwt.user.UI"/>
+    <inherits name="com.google.gwt.event.EventBase"/>
+    <inherits name="us.ascendtech.AGGrid"/>
+    <inherits name="us.ascendtech.highcharts.Highcharts"/>
+    <inherits name="us.ascendtech.momentjs.MomentJS"/>
+    <inherits name="org.jboss.elemento.Core"/>
+
+    <entry-point class='us.ascendtech.client.Games'/>
+
+    <source path='client'/>
+    <source path='shared'/>
+</module>
+

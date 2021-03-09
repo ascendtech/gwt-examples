@@ -11,23 +11,29 @@ import elemental2.dom.DomGlobal;
 public class ServiceProvider {
 
 	private static final ServiceProvider serviceProvider = new ServiceProvider();
+	private final TriviaServiceClient triviaServiceClient;
+	private final PlayersServiceClient playersServiceClient;
+
+	private ServiceProvider() {
+		triviaServiceClient = new TriviaServiceClient_RestServiceModel(ServiceProvider::osm);
+		playersServiceClient = new PlayersServiceClient_RestServiceModel(ServiceProvider::osm);
+	}
 
 	public static ServiceProvider get() {
 		return serviceProvider;
 	}
-
-	private final ToDoServiceClient todoServiceClient;
 
 	private static ResourceVisitor osm() {
 		String baseUrl = DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host;
 		return new RequestResourceBuilder().path(baseUrl);
 	}
 
-	private ServiceProvider() {
-		todoServiceClient = new ToDoServiceClient_RestServiceModel(ServiceProvider::osm);
+	public TriviaServiceClient getTriviaServiceClient() {
+		return triviaServiceClient;
 	}
 
-	public ToDoServiceClient getTodoServiceClient() {
-		return todoServiceClient;
+	public PlayersServiceClient getPlayersServiceClient() {
+		return playersServiceClient;
 	}
+
 }
