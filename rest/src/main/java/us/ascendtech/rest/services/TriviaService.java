@@ -69,6 +69,13 @@ public class TriviaService {
     }
 
     public TriviaQuestion getQuestion() {
+        if (questions.size() == 0 || questionIndex >= questions.size()) {
+            return nextQuestion();
+        }
+        return questions.elementAt(questionIndex);
+    }
+
+    public TriviaQuestion nextQuestion() {
         if (this.session == null || this.session.isEmpty()) {
             start();
         }
@@ -76,7 +83,8 @@ public class TriviaService {
             try {
                 fetchQuestions();
                 questionIndex = 0;
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe) {
                 LOG.debug(ioe.getMessage());
                 return null;
             }

@@ -15,6 +15,8 @@ import us.ascendtech.client.dto.PlayerDTO;
 import us.ascendtech.client.dto.PlayerTableHeaderDTO;
 import us.ascendtech.client.services.ServiceProvider;
 
+import java.util.Optional;
+
 @Component
 public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	@Data
@@ -52,6 +54,32 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		}
 	}
 
+	public Optional<PlayerDTO> nextPlayer() {
+		if (players.length == 0) {
+			this.currentPlayer = new JsArray<>();
+			return Optional.empty();
+		}
+		else if (currentPlayer.length == 0) {
+			PlayerDTO player = players.getAt(0);
+			currentPlayer = new JsArray<>(player);
+			return Optional.of(player);
+		}
+		else {
+			int currentIndex = this.players.findIndex((player, index, array) -> player.getId() == currentPlayer.getAt(0).getId());
+			currentPlayer = new JsArray<>(this.players.getAt((currentIndex + 1) % this.players.length));
+			return Optional.of(currentPlayer.getAt(0));
+		}
+	}
+
+	public Optional<PlayerDTO> currentPlayer() {
+		if (currentPlayer.length == 0) {
+			return Optional.empty();
+		}
+		else {
+			return Optional.of(currentPlayer.getAt(0));
+		}
+	}
+
 	@Computed
 	String formTitle() {
 		return this.editedIndex == -1 ? "New Item" : "Edit Item";
@@ -82,6 +110,9 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	void deleteItem(PlayerDTO item) {
 		int removeIndex = this.players.indexOf(item);
 		DomGlobal.console.log("Deleting", item.getId(), "at", removeIndex);
+		if (currentPlayer.length != 0 && currentPlayer.getAt(0).getId() == item.getId()) {
+			nextPlayer();
+		}
 		ServiceProvider.get().getPlayersServiceClient().remove(item.getId()).subscribe(removed -> {
 			if (removed) {
 				this.players = this.players.filter((player, index, array) -> index != removeIndex);
@@ -153,6 +184,9 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		createTableHeaders();
 		ServiceProvider.get().getPlayersServiceClient().getPlayers().subscribe(player -> {
 			this.players.push(player);
+			if (this.players.length == 1) {
+				this.currentPlayer = new JsArray<>(player);
+			}
 		}, err);
 	}
 }

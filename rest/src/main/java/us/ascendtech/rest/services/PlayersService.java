@@ -51,11 +51,11 @@ public class PlayersService {
 		return false;
 	}
 
-	public boolean incrementScore(int id) {
+	public boolean incrementScore(int id, int amount) {
 		var maybePlayer = get(id);
 		if (maybePlayer.isPresent()) {
 			var player = maybePlayer.get();
-			player.setScore(player.getScore() + 1);
+			player.setScore(player.getScore() + amount);
 			return true;
 		}
 		return false;

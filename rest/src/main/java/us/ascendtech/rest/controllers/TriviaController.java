@@ -24,12 +24,7 @@ public class TriviaController {
 
     @Get("/next")
     public HttpResponse<TriviaQuestion> next() {
-        return HttpResponse.created(triviaService.getQuestion());
-    }
-
-    @Get("/difficulty")
-    public HttpResponse<String> getDifficulty() {
-        return HttpResponse.ok(triviaService.getDifficulty().toString());
+        return HttpResponse.created(triviaService.nextQuestion());
     }
 
     @Post("/difficulty/{difficulty}")
@@ -44,9 +39,13 @@ public class TriviaController {
         }
     }
 
-    @Get("/category")
-    public HttpResponse<Integer> getCategory() {
-        return HttpResponse.ok(triviaService.getCategory());
+    @Get("/state")
+    public HttpResponse<State> getState() {
+        State state = new State();
+        state.category = triviaService.getCategory();
+        state.difficulty = triviaService.getDifficulty().toString();
+        state.question = triviaService.getQuestion();
+        return HttpResponse.ok(state);
     }
 
     @Post("/category/{category}")
@@ -69,5 +68,11 @@ public class TriviaController {
             this.id = id;
             this.name = name;
         }
+    }
+
+    private class State {
+        public int category;
+        public String difficulty;
+        public TriviaQuestion question;
     }
 }

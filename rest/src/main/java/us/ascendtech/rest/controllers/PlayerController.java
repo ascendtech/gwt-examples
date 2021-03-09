@@ -62,4 +62,9 @@ public class PlayerController {
 		}
 		return HttpResponse.ok(playersService.rename(id, name));
 	}
+
+	@Post("addScore/{id}/{amount}")
+	public HttpResponse<Boolean> addScore(@Parameter Integer id, @Parameter Integer amount) {
+		return HttpResponse.ok(playersService.incrementScore(id, amount));
+	}
 }

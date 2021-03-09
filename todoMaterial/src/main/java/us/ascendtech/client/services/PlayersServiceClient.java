@@ -34,4 +34,8 @@ public interface PlayersServiceClient {
 	@PUT
 	@Path("/remove/{id}")
 	Single<Boolean> remove(@PathParam("id") int id);
+
+	@POST
+	@Path("addScore/{id}/{amount}")
+	Single<Boolean> addScore(@PathParam("id") int id, @PathParam("amount") int amount);
 }

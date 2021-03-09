@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import us.ascendtech.client.dto.TriviaCategoryDTO;
 import us.ascendtech.client.dto.TriviaQuestionDTO;
+import us.ascendtech.client.dto.TriviaStateDTO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,17 +25,13 @@ public interface TriviaServiceClient {
     @Path("/difficulty/{difficulty}")
     Completable setDifficulty(@PathParam("difficulty") String difficulty);
 
-    @GET
-    @Path("/difficulty")
-    Single<String> getDifficulty();
-
     @POST
     @Path("/category/{category}")
     Completable setCategory(@PathParam("category") int category);
 
     @GET
-    @Path("/category")
-    Single<Integer> getCategory();
+    @Path("/state")
+    Single<TriviaStateDTO> getState();
 
     @GET
     @Path("/categories")

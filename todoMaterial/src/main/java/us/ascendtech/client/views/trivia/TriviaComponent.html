@@ -1,12 +1,12 @@
 <v-container fluid>
     <v-row>
         <v-col>
-            <v-select :items="difficulties" label="Difficulty" v-model="difficulty">
+            <v-select :items="difficulties" @change="setDifficulty" label="Difficulty" v-model="difficulty">
 
             </v-select>
         </v-col>
         <v-col>
-            <v-select :items="categories" item-text="name" item-value="id" label="Category" v-model="category">
+            <v-select :items="categories" @change="setCategory" item-text="name" item-value="id" label="Category" v-model="category">
             </v-select>
         </v-col>
     </v-row>
@@ -76,7 +76,7 @@
             <v-spacer/>
         </v-col>
         <v-col>
-            <players/>
+            <players ref="playersComponent"/>
         </v-col>
     </v-row>
     <div id="error">

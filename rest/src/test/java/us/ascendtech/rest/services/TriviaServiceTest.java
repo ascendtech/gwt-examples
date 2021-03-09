@@ -7,7 +7,10 @@ import us.ascendtech.rest.dto.TriviaQuestion;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TriviaServiceTest {
 
@@ -59,13 +62,14 @@ class TriviaServiceTest {
     }
 
     @Test
-    void getQuestion() {
-        var question = service.getQuestion();
-        assertNotNull(question);
+    void nextQuestion() {
+        var firstQuestion = service.nextQuestion();
+        assertNotNull(firstQuestion);
 
         var secondService = new TriviaService();
         for (var i = 0; i < 2 * TriviaService.getNumQuestions(); i++) {
-            question = secondService.getQuestion();
+            var question = secondService.nextQuestion();
+            assertFalse(firstQuestion.getQuestion().equals(question.getQuestion()));
             assertNotNull(question);
             assertNotNull(question.getCorrectAnswer());
             assertNotNull(question.getIncorrectAnswers());
