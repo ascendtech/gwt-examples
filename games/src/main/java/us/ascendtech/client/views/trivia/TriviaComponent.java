@@ -38,9 +38,9 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	@Data
 	boolean awaitingAnswer = true;
 	@Data
-	int selection = 0;
+	int selection = -1;
 	@Data
-	int oldSelection = 0;
+	int oldSelection = -1;
 	@Ref
 	PlayersComponent playersComponent;
 
@@ -132,8 +132,8 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 
 	@JsMethod
 	void next() {
-		selection = 0;
-		oldSelection = 0;
+		selection = -1;
+		oldSelection = -1;
 		awaitingAnswer = true;
 		ServiceProvider.get().getTriviaServiceClient().getQuestion(new SingleCallback<TriviaQuestionDTO>() {
 			@Override
