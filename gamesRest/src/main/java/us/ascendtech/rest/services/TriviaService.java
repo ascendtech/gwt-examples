@@ -86,6 +86,16 @@ public class TriviaService {
             }
             catch (IOException ioe) {
                 LOG.debug(ioe.getMessage());
+                //try one more time, with a new session key
+                try {
+                    initializeSession();
+                    fetchQuestions();
+                    questionIndex = 0;
+                    return questions.elementAt(questionIndex);
+                }
+                catch (IOException innerIoe) {
+                    LOG.debug(innerIoe.getMessage());
+                }
                 return null;
             }
         } else {

@@ -36,13 +36,6 @@ public class PlayerController {
 
 	@Put("/add")
 	public HttpResponse<Player> add(@Body String name) {
-		//Strings coming in from the front-end tend to have extra quotes around them
-		if (name.startsWith("\"")) {
-			name = name.substring(1);
-		}
-		if (name.endsWith("\"")) {
-			name = name.substring(0, name.length() - 1);
-		}
 		return HttpResponse.ok(playersService.addPlayer(name));
 	}
 
@@ -56,13 +49,6 @@ public class PlayerController {
 
 	@Post("/rename/{id}")
 	public HttpResponse rename(@Parameter Integer id, @Body String name) {
-		//Strings coming in from the front-end tend to have extra quotes around them
-		if (name.startsWith("\"")) {
-			name = name.substring(1);
-		}
-		if (name.endsWith("\"")) {
-			name = name.substring(0, name.length() - 1);
-		}
 		if (playersService.rename(id, name)) {
 			return HttpResponse.ok();
 		}
