@@ -10,13 +10,13 @@ import elemental2.dom.DomGlobal;
  */
 public class ServiceProvider {
 
-	private static final ServiceProvider serviceProvider = new ServiceProvider();
+	private static ServiceProvider serviceProvider = new ServiceProvider();
 
 	public static ServiceProvider get() {
 		return serviceProvider;
 	}
 
-	private final ToDoServiceClient todoServiceClient;
+	private ToDoServiceClient todoServiceClient;
 
 	private static ResourceVisitor osm() {
 		String baseUrl = DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host;
@@ -30,4 +30,5 @@ public class ServiceProvider {
 	public ToDoServiceClient getTodoServiceClient() {
 		return todoServiceClient;
 	}
+
 }

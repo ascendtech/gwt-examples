@@ -17,6 +17,11 @@ import us.ascendtech.client.views.upload.UploadComponentFactory;
 
 public class RoutesConfig implements CustomizeOptions {
 
+	@JsFunction
+	public interface Props {
+		JsPropertyMap<String> prop(Route route);
+	}
+
 	@Override
 	public void customizeOptions(VueComponentOptions componentOptions) {
 		RouterOptions routerOptions = new RouterOptions();
@@ -34,10 +39,5 @@ public class RoutesConfig implements CustomizeOptions {
 
 		// And set it on our Component options
 		componentOptions.set("router", vueRouter);
-	}
-
-	@JsFunction
-	public interface Props {
-		JsPropertyMap<String> prop(Route route);
 	}
 }
