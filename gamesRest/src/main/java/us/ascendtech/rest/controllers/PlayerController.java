@@ -47,12 +47,15 @@ public class PlayerController {
 	}
 
 	@Put("/remove/{id}")
-	public HttpResponse<Boolean> remove(@Parameter Integer id) {
-		return HttpResponse.ok(playersService.remove(id));
+	public HttpResponse remove(@Parameter Integer id) {
+		if (playersService.remove(id)) {
+			return HttpResponse.ok();
+		}
+		return HttpResponse.serverError();
 	}
 
 	@Post("/rename/{id}")
-	public HttpResponse<Boolean> rename(@Parameter Integer id, @Body String name) {
+	public HttpResponse rename(@Parameter Integer id, @Body String name) {
 		//Strings coming in from the front-end tend to have extra quotes around them
 		if (name.startsWith("\"")) {
 			name = name.substring(1);
@@ -60,11 +63,17 @@ public class PlayerController {
 		if (name.endsWith("\"")) {
 			name = name.substring(0, name.length() - 1);
 		}
-		return HttpResponse.ok(playersService.rename(id, name));
+		if (playersService.rename(id, name)) {
+			return HttpResponse.ok();
+		}
+		return HttpResponse.serverError();
 	}
 
 	@Post("addScore/{id}/{amount}")
-	public HttpResponse<Boolean> addScore(@Parameter Integer id, @Parameter Integer amount) {
-		return HttpResponse.ok(playersService.incrementScore(id, amount));
+	public HttpResponse addScore(@Parameter Integer id, @Parameter Integer amount) {
+		if (playersService.incrementScore(id, amount)) {
+			return HttpResponse.ok();
+		}
+		return HttpResponse.serverError();
 	}
 }

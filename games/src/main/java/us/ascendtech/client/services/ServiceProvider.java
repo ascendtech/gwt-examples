@@ -1,7 +1,5 @@
 package us.ascendtech.client.services;
 
-import com.intendia.gwt.autorest.client.RequestResourceBuilder;
-import com.intendia.gwt.autorest.client.ResourceVisitor;
 import elemental2.dom.DomGlobal;
 
 /**
@@ -15,17 +13,12 @@ public class ServiceProvider {
 	private final PlayersServiceClient playersServiceClient;
 
 	private ServiceProvider() {
-		triviaServiceClient = new TriviaServiceClient_RestServiceModel(ServiceProvider::osm);
-		playersServiceClient = new PlayersServiceClient_RestServiceModel(ServiceProvider::osm);
+		triviaServiceClient = new TriviaServiceClientSimpleRest(DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host);
+		playersServiceClient = new PlayersServiceClientSimpleRest(DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host);
 	}
 
 	public static ServiceProvider get() {
 		return serviceProvider;
-	}
-
-	private static ResourceVisitor osm() {
-		String baseUrl = DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host;
-		return new RequestResourceBuilder().path(baseUrl);
 	}
 
 	public TriviaServiceClient getTriviaServiceClient() {

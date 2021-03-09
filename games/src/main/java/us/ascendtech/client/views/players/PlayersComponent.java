@@ -6,14 +6,15 @@ import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.annotations.component.Watch;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
-import com.google.gwt.core.client.GWT;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
-import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
 import us.ascendtech.client.dto.PlayerDTO;
 import us.ascendtech.client.dto.PlayerTableHeaderDTO;
 import us.ascendtech.client.services.ServiceProvider;
+import us.ascendtech.gwt.simplerest.client.CompletableCallback;
+import us.ascendtech.gwt.simplerest.client.MultipleCallback;
+import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
 import java.util.Optional;
 
@@ -23,11 +24,7 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	boolean showError = false;
 	@Data
 	String error;
-	private final Consumer<Throwable> err = e -> {
-		GWT.log("exception: " + e, e);
-		error = e.getMessage();
-		showError = true;
-	};
+
 	@Data
 	boolean dialog = false;
 	@Data
@@ -113,35 +110,57 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		if (currentPlayer.length != 0 && currentPlayer.getAt(0).getId() == item.getId()) {
 			nextPlayer();
 		}
-		ServiceProvider.get().getPlayersServiceClient().remove(item.getId()).subscribe(removed -> {
-			if (removed) {
-				this.players = this.players.filter((player, index, array) -> index != removeIndex);
+		ServiceProvider.get().getPlayersServiceClient().remove(item.getId(), new CompletableCallback() {
+			@Override
+			public void onDone() {
+				players = players.filter((player, index, array) -> index != removeIndex);
 			}
-		}, err);
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 	}
 
 	@JsMethod
 	void save() {
+		String name = this.editedItem.getName();
 		if (this.editedIndex == -1) {
 			//New Player
-			String name = this.editedItem.getName();
-			ServiceProvider.get().getPlayersServiceClient().add(name).subscribe(player -> {
-				DomGlobal.console.log("New Player id", player.getId());
-				this.players.push(player);
-			}, err);
+			ServiceProvider.get().getPlayersServiceClient().add(name, new SingleCallback<PlayerDTO>() {
+				@Override
+				public void onData(PlayerDTO player) {
+					DomGlobal.console.log("New Player id", player.getId());
+					players.push(player);
+				}
+
+				@Override
+				public void onError(int statusCode, String status, String errorBody) {
+					error = errorBody;
+					showError = true;
+				}
+			});
 		}
 		else {
 			//Existing Player
 			int id = this.editedItem.getId();
-			ServiceProvider.get().getPlayersServiceClient().rename(id, this.editedItem.getName()).subscribe(() -> {
-				ServiceProvider.get().getPlayersServiceClient().getPlayer(id).subscribe(player -> {
-					PlayerDTO current = this.players.find((p, index, arr) -> p.getId() == id);
+			ServiceProvider.get().getPlayersServiceClient().rename(id, this.editedItem.getName(), new CompletableCallback() {
+				@Override
+				public void onDone() {
+					PlayerDTO current = players.find((p, index, arr) -> p.getId() == id);
 					if (current != null) {
-						current.setName(player.getName());
-						current.setScore(player.getScore());
+						current.setName(name);
 					}
-				});
-			}, err);
+				}
+
+				@Override
+				public void onError(int statusCode, String status, String errorBody) {
+					error = errorBody;
+					showError = true;
+				}
+			});
 		}
 		this.close();
 	}
@@ -182,11 +201,22 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	@Override
 	public void beforeMount() {
 		createTableHeaders();
-		ServiceProvider.get().getPlayersServiceClient().getPlayers().subscribe(player -> {
-			this.players.push(player);
-			if (this.players.length == 1) {
-				this.currentPlayer = new JsArray<>(player);
+		ServiceProvider.get().getPlayersServiceClient().getPlayers(new MultipleCallback<PlayerDTO>() {
+			@Override
+			public void onData(PlayerDTO[] playersList) {
+				for (PlayerDTO player : playersList) {
+					players.push(player);
+				}
+				if (players.length > 0) {
+					currentPlayer = new JsArray<>(players.getAt(0));
+				}
 			}
-		}, err);
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 	}
 }

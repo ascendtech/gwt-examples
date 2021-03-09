@@ -6,16 +6,18 @@ import com.axellience.vuegwt.core.annotations.component.Ref;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 import com.axellience.vuegwt.core.client.component.hooks.HasMounted;
-import com.google.gwt.core.client.GWT;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
-import io.reactivex.functions.Consumer;
 import jsinterop.annotations.JsMethod;
 import us.ascendtech.client.dto.PlayerDTO;
 import us.ascendtech.client.dto.TriviaCategoryDTO;
 import us.ascendtech.client.dto.TriviaQuestionDTO;
+import us.ascendtech.client.dto.TriviaStateDTO;
 import us.ascendtech.client.services.ServiceProvider;
 import us.ascendtech.client.views.players.PlayersComponent;
+import us.ascendtech.gwt.simplerest.client.CompletableCallback;
+import us.ascendtech.gwt.simplerest.client.MultipleCallback;
+import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,11 +31,6 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	String error;
 	@Data
 	boolean showError = false;
-	private final Consumer<Throwable> err = e -> {
-		GWT.log("exception: " + e, e);
-		error = e.getMessage();
-		showError = true;
-	};
 	@Data
 	TriviaQuestionDTO question = new TriviaQuestionDTO();
 	@Data
@@ -66,19 +63,35 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	@JsMethod
 	void setDifficulty(String difficulty) {
 		DomGlobal.console.log("Difficulty changed to", difficulty);
-		ServiceProvider.get().getTriviaServiceClient().setDifficulty(difficulty).subscribe(() -> {
-			next();
-		}, err);
-		next();
+		ServiceProvider.get().getTriviaServiceClient().setDifficulty(difficulty, new CompletableCallback() {
+			@Override
+			public void onDone() {
+				next();
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 	}
 
 	@JsMethod
 	void setCategory(int category) {
 		DomGlobal.console.log("Category changed to", category);
-		ServiceProvider.get().getTriviaServiceClient().setCategory(category).subscribe(() -> {
-			next();
-		}, err);
-		next();
+		ServiceProvider.get().getTriviaServiceClient().setCategory(category, new CompletableCallback() {
+			@Override
+			public void onDone() {
+				next();
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 	}
 
 	@JsMethod
@@ -88,11 +101,18 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		if (choices.getAt(selection).equals(question.getCorrectAnswer())) {
 			DomGlobal.console.log("Good Job");
 			Optional<PlayerDTO> currentPlayer = playersComponent.currentPlayer();
-			if (currentPlayer.isPresent()) {
-				ServiceProvider.get().getPlayersServiceClient().addScore(currentPlayer.get().getId(), 1).subscribe(result -> {
-					currentPlayer.get().setScore(currentPlayer.get().getScore() + 1);
-				}, err);
-			}
+			currentPlayer.ifPresent(playerDTO -> ServiceProvider.get().getPlayersServiceClient().addScore(playerDTO.getId(), 1, new CompletableCallback() {
+				@Override
+				public void onDone() {
+					playerDTO.setScore(playerDTO.getScore() + 1);
+				}
+
+				@Override
+				public void onError(int statusCode, String status, String errorBody) {
+					error = errorBody;
+					showError = true;
+				}
+			}));
 		}
 		else {
 			selection = choices.findIndex((answer, index, list) -> answer.equals(question.getCorrectAnswer()));
@@ -115,9 +135,18 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		selection = 0;
 		oldSelection = 0;
 		awaitingAnswer = true;
-		ServiceProvider.get().getTriviaServiceClient().getQuestion().subscribe(question -> {
-			this.setQuestion(question);
-		}, err);
+		ServiceProvider.get().getTriviaServiceClient().getQuestion(new SingleCallback<TriviaQuestionDTO>() {
+			@Override
+			public void onData(TriviaQuestionDTO question) {
+				setQuestion(question);
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 		playersComponent.nextPlayer();
 	}
 
@@ -138,14 +167,34 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		all.setName("All");
 		all.setId(0);
 		categories.push(all);
-		ServiceProvider.get().getTriviaServiceClient().getCategories().subscribe(category -> {
-			this.categories.push(category);
-			this.categories.sort((first, second) -> first.getName().toLowerCase().compareTo(second.getName().toLowerCase()));
-		}, err);
-		ServiceProvider.get().getTriviaServiceClient().getState().subscribe(state -> {
-			this.difficulty = this.difficulties.find((difficulty, index, arr) -> difficulty.toLowerCase() == state.getDifficulty().toLowerCase());
-			this.category = state.getCategory();
-			this.setQuestion(state.getQuestion());
-		}, err);
+		ServiceProvider.get().getTriviaServiceClient().getCategories(new MultipleCallback<TriviaCategoryDTO>() {
+			@Override
+			public void onData(TriviaCategoryDTO[] categoriesList) {
+				for (TriviaCategoryDTO category : categoriesList) {
+					categories.push(category);
+					categories.sort((first, second) -> first.getName().toLowerCase().compareTo(second.getName().toLowerCase()));
+				}
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
+		ServiceProvider.get().getTriviaServiceClient().getState(new SingleCallback<TriviaStateDTO>() {
+			@Override
+			public void onData(TriviaStateDTO state) {
+				difficulty = difficulties.find((difficulty, index, arr) -> difficulty.toLowerCase() == state.getDifficulty().toLowerCase());
+				category = state.getCategory();
+				setQuestion(state.getQuestion());
+			}
+
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		});
 	}
 }
