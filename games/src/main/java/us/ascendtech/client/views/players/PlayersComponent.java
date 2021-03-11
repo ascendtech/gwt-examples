@@ -5,7 +5,7 @@ import com.axellience.vuegwt.core.annotations.component.Computed;
 import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.annotations.component.Watch;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
-import com.axellience.vuegwt.core.client.component.hooks.HasBeforeMount;
+import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
@@ -16,10 +16,11 @@ import us.ascendtech.gwt.simplerest.client.CompletableCallback;
 import us.ascendtech.gwt.simplerest.client.MultipleCallback;
 import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Component
-public class PlayersComponent implements IsVueComponent, HasBeforeMount {
+public class PlayersComponent implements IsVueComponent, HasCreated {
 	@Data
 	boolean showError = false;
 	@Data
@@ -39,6 +40,8 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	JsArray<PlayerDTO> players = new JsArray<>();
 	@Data
 	JsArray<PlayerDTO> currentPlayer = new JsArray<>();
+	@Data
+	String gameKey;
 
 	@Watch("dialog")
 	void dialogChanged(boolean newVal, boolean oldVal) {
@@ -110,7 +113,7 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		if (currentPlayer.length != 0 && currentPlayer.getAt(0).getId() == item.getId()) {
 			nextPlayer();
 		}
-		ServiceProvider.get().getPlayersServiceClient().remove(item.getId(), new CompletableCallback() {
+		ServiceProvider.get().getPlayersServiceClient().remove(gameKey, item.getId(), new CompletableCallback() {
 			@Override
 			public void onDone() {
 				players = players.filter((player, index, array) -> index != removeIndex);
@@ -129,7 +132,7 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		String name = this.editedItem.getName();
 		if (this.editedIndex == -1) {
 			//New Player
-			ServiceProvider.get().getPlayersServiceClient().add(name, new SingleCallback<PlayerDTO>() {
+			ServiceProvider.get().getPlayersServiceClient().add(gameKey, name, new SingleCallback<PlayerDTO>() {
 				@Override
 				public void onData(PlayerDTO player) {
 					DomGlobal.console.log("New Player id", player.getId());
@@ -146,7 +149,7 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 		else {
 			//Existing Player
 			int id = this.editedItem.getId();
-			ServiceProvider.get().getPlayersServiceClient().rename(id, this.editedItem.getName(), new CompletableCallback() {
+			ServiceProvider.get().getPlayersServiceClient().rename(gameKey, id, this.editedItem.getName(), new CompletableCallback() {
 				@Override
 				public void onDone() {
 					PlayerDTO current = players.find((p, index, arr) -> p.getId() == id);
@@ -199,9 +202,12 @@ public class PlayersComponent implements IsVueComponent, HasBeforeMount {
 	}
 
 	@Override
-	public void beforeMount() {
+	public void created() {
 		createTableHeaders();
-		ServiceProvider.get().getPlayersServiceClient().getPlayers(new MultipleCallback<PlayerDTO>() {
+		gameKey = Arrays.stream(DomGlobal.document.cookie.split("; ")).filter(cookie -> cookie.startsWith("gameKey=")).map(gameKey -> gameKey.substring(8))
+				.findFirst().orElse("");
+
+		ServiceProvider.get().getPlayersServiceClient().getPlayers(gameKey, new MultipleCallback<PlayerDTO>() {
 			@Override
 			public void onData(PlayerDTO[] playersList) {
 				for (PlayerDTO player : playersList) {

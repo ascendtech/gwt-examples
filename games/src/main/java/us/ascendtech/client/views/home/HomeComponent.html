@@ -8,5 +8,38 @@
                 <v-divider class="my-3"></v-divider>
             </v-col>
         </v-row>
+        <v-row align="center">
+            <v-col>
+                <v-btn @click="newGame" color="primary">Start New Game</v-btn>
+            </v-col>
+            <v-col>
+                <v-btn @click="joinGameInput = true" color="primary" v-if="!joinGameInput">Join Existing Game</v-btn>
+                <div v-else>
+                    <v-row>
+                        <v-col>
+                            <v-text-field class="shrink mx-4" dense hide-details="auto" label="Game Key" placeholder="ABC" single-line
+                                          v-model="gameKeyInput"></v-text-field>
+                        </v-col>
+                        <v-col>
+                            <v-btn @click="joinGame" color="primary">Join</v-btn>
+                        </v-col>
+                    </v-row>
+                </div>
+            </v-col>
+        </v-row>
+        <v-row v-if="!gameKey.isEmpty()">
+            <span>Current Game Key: {{gameKey}}</span>
+        </v-row>
     </v-container>
+    <div id="error">
+        <v-snackbar
+                color="error"
+                right="right"
+                top="top"
+                v-model="showError"
+        >
+            {{ error }}
+            <v-btn @click.native="showError = false" color="white" text>Close</v-btn>
+        </v-snackbar>
+    </div>
 </v-responsive>

@@ -16,26 +16,26 @@ import javax.ws.rs.PathParam;
 @Path("/service/player")
 public interface PlayersServiceClient {
 	@GET
-	@Path("/list")
-	void getPlayers(MultipleCallback<PlayerDTO> callback);
+	@Path("/list/{gameKey}")
+	void getPlayers(@PathParam("gameKey") String gameKey, MultipleCallback<PlayerDTO> callback);
 
 	@GET
-	@Path("/get/{id}")
-	void getPlayer(@PathParam("id") int id, SingleCallback<PlayerDTO> callback);
+	@Path("/get/{gameKey}/{id}")
+	void getPlayer(@PathParam("gameKey") String gameKey, @PathParam("id") int id, SingleCallback<PlayerDTO> callback);
 
 	@POST
-	@Path("/rename/{id}")
-	void rename(@PathParam("id") int id, String name, CompletableCallback callback);
+	@Path("/rename/{gameKey}/{id}/{name}")
+	void rename(@PathParam("gameKey") String gameKey, @PathParam("id") int id, @PathParam("name") String name, CompletableCallback callback);
 
 	@PUT
-	@Path("/add")
-	void add(String name, SingleCallback<PlayerDTO> callback);
+	@Path("/add/{gameKey}/{name}")
+	void add(@PathParam("gameKey") String gameKey, @PathParam("name") String name, SingleCallback<PlayerDTO> callback);
 
 	@PUT
-	@Path("/remove/{id}")
-	void remove(@PathParam("id") int id, CompletableCallback callback);
+	@Path("/remove/{gameKey}/{id}")
+	void remove(@PathParam("gameKey") String gameKey, @PathParam("id") int id, CompletableCallback callback);
 
 	@POST
-	@Path("addScore/{id}/{amount}")
-	void addScore(@PathParam("id") int id, @PathParam("amount") int amount, CompletableCallback callback);
+	@Path("addScore/{gameKey}/{id}/{amount}")
+	void addScore(@PathParam("gameKey") String gameKey, @PathParam("id") int id, @PathParam("amount") int amount, CompletableCallback callback);
 }

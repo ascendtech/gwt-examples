@@ -18,22 +18,22 @@ import javax.ws.rs.PathParam;
 public interface TriviaServiceClient {
 
     @GET
-    @Path("/next")
-    void getQuestion(SingleCallback<TriviaQuestionDTO> callback);
+    @Path("/next/{gameKey}")
+    void getQuestion(@PathParam("gameKey") String gameKey, SingleCallback<TriviaQuestionDTO> callback);
 
     @POST
-    @Path("/difficulty/{difficulty}")
-    void setDifficulty(@PathParam("difficulty") String difficulty, CompletableCallback callback);
+    @Path("/difficulty/{gameKey}/{difficulty}")
+    void setDifficulty(@PathParam("gameKey") String gameKey, @PathParam("difficulty") String difficulty, CompletableCallback callback);
 
     @POST
-    @Path("/category/{category}")
-    void setCategory(@PathParam("category") int category, CompletableCallback callback);
+    @Path("/category/{gameKey}/{category}")
+    void setCategory(@PathParam("gameKey") String gameKey, @PathParam("category") int category, CompletableCallback callback);
 
     @GET
-    @Path("/state")
-    void getState(SingleCallback<TriviaStateDTO> callback);
+    @Path("/state/{gameKey}")
+    void getState(@PathParam("gameKey") String gameKey, SingleCallback<TriviaStateDTO> callback);
 
     @GET
-    @Path("/categories")
-    void getCategories(MultipleCallback<TriviaCategoryDTO> callback);
+    @Path("/categories/{gameKey}")
+    void getCategories(@PathParam("gameKey") String gameKey, MultipleCallback<TriviaCategoryDTO> callback);
 }

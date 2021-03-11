@@ -4,13 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.ascendtech.rest.dto.Player;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Singleton
 public class PlayersService {
 	static final Logger LOG = LoggerFactory.getLogger(PlayersService.class);
 	private static final AtomicInteger lastId = new AtomicInteger();

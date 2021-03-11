@@ -5,7 +5,6 @@ import com.axellience.vuegwt.core.annotations.component.Data;
 import com.axellience.vuegwt.core.annotations.component.Ref;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
-import com.axellience.vuegwt.core.client.component.hooks.HasMounted;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
@@ -20,12 +19,13 @@ import us.ascendtech.gwt.simplerest.client.MultipleCallback;
 import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Component(components = { PlayersComponent.class })
-public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
+public class TriviaComponent implements IsVueComponent, HasCreated {
 
 	@Data
 	String error;
@@ -56,6 +56,9 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	@Data
 	int category = -1;
 
+	@Data
+	String gameKey;
+
 	@JsMethod
 	void restart() {
 	}
@@ -63,7 +66,7 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	@JsMethod
 	void setDifficulty(String difficulty) {
 		DomGlobal.console.log("Difficulty changed to", difficulty);
-		ServiceProvider.get().getTriviaServiceClient().setDifficulty(difficulty, new CompletableCallback() {
+		ServiceProvider.get().getTriviaServiceClient().setDifficulty(gameKey, difficulty, new CompletableCallback() {
 			@Override
 			public void onDone() {
 				next();
@@ -80,7 +83,7 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	@JsMethod
 	void setCategory(int category) {
 		DomGlobal.console.log("Category changed to", category);
-		ServiceProvider.get().getTriviaServiceClient().setCategory(category, new CompletableCallback() {
+		ServiceProvider.get().getTriviaServiceClient().setCategory(gameKey, category, new CompletableCallback() {
 			@Override
 			public void onDone() {
 				next();
@@ -101,17 +104,18 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		if (choices.getAt(selection).equals(question.getCorrectAnswer())) {
 			DomGlobal.console.log("Good Job");
 			Optional<PlayerDTO> currentPlayer = playersComponent.currentPlayer();
-			currentPlayer.ifPresent(playerDTO -> ServiceProvider.get().getPlayersServiceClient().addScore(playerDTO.getId(), 1, new CompletableCallback() {
-				@Override
-				public void onDone() {
-					playerDTO.setScore(playerDTO.getScore() + 1);
-				}
+			currentPlayer
+					.ifPresent(playerDTO -> ServiceProvider.get().getPlayersServiceClient().addScore(gameKey, playerDTO.getId(), 1, new CompletableCallback() {
+						@Override
+						public void onDone() {
+							playerDTO.setScore(playerDTO.getScore() + 1);
+						}
 
-				@Override
-				public void onError(int statusCode, String status, String errorBody) {
-					error = errorBody;
-					showError = true;
-				}
+						@Override
+						public void onError(int statusCode, String status, String errorBody) {
+							error = errorBody;
+							showError = true;
+						}
 			}));
 		}
 		else {
@@ -135,7 +139,7 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		selection = -1;
 		oldSelection = -1;
 		awaitingAnswer = true;
-		ServiceProvider.get().getTriviaServiceClient().getQuestion(new SingleCallback<TriviaQuestionDTO>() {
+		ServiceProvider.get().getTriviaServiceClient().getQuestion(gameKey, new SingleCallback<TriviaQuestionDTO>() {
 			@Override
 			public void onData(TriviaQuestionDTO question) {
 				setQuestion(question);
@@ -151,11 +155,22 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 	}
 
 	@Override
-	public void mounted() {
+	public void created() {
+		DomGlobal.console.log("Cookie:", DomGlobal.document.cookie);
+		String session = Arrays.stream(DomGlobal.document.cookie.split("; ")).filter(cookie -> cookie.startsWith("gameKey="))
+				.map(gameKey -> gameKey.substring(8)).findFirst().orElse("");
+		DomGlobal.console.log("Session Key:", session);
+		if (!session.isEmpty()) {
+			gameKey = session;
+			initialize();
+		}
+		else {
+			error = "Session Key not found. Please start a new game or join an existing one from the Home screen";
+			showError = true;
+		}
 	}
 
-	@Override
-	public void created() {
+	private void initialize() {
 		question = new TriviaQuestionDTO();
 		question.setQuestion("No Question");
 		question.setCategory("No Category");
@@ -167,7 +182,7 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 		all.setName("All");
 		all.setId(0);
 		categories.push(all);
-		ServiceProvider.get().getTriviaServiceClient().getCategories(new MultipleCallback<TriviaCategoryDTO>() {
+		ServiceProvider.get().getTriviaServiceClient().getCategories(gameKey, new MultipleCallback<TriviaCategoryDTO>() {
 			@Override
 			public void onData(TriviaCategoryDTO[] categoriesList) {
 				for (TriviaCategoryDTO category : categoriesList) {
@@ -182,7 +197,7 @@ public class TriviaComponent implements IsVueComponent, HasMounted, HasCreated {
 				showError = true;
 			}
 		});
-		ServiceProvider.get().getTriviaServiceClient().getState(new SingleCallback<TriviaStateDTO>() {
+		ServiceProvider.get().getTriviaServiceClient().getState(gameKey, new SingleCallback<TriviaStateDTO>() {
 			@Override
 			public void onData(TriviaStateDTO state) {
 				difficulty = difficulties.find((difficulty, index, arr) -> difficulty.toLowerCase() == state.getDifficulty().toLowerCase());
