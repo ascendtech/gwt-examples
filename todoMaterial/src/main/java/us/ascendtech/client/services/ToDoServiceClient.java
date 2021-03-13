@@ -2,6 +2,7 @@ package us.ascendtech.client.services;
 
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.gwt.simplerest.client.CompletableCallback;
+import us.ascendtech.gwt.simplerest.client.ErrorCallback;
 import us.ascendtech.gwt.simplerest.client.MultipleCallback;
 import us.ascendtech.gwt.simplerest.client.SimpleRestGwt;
 import us.ascendtech.gwt.simplerest.client.SingleCallback;
@@ -19,18 +20,18 @@ public interface ToDoServiceClient {
 
 	@GET
 	@Path("/list")
-	void getCurrentToDos(MultipleCallback<ToDoDTO> callback);
+	void getCurrentToDos(MultipleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 	@PUT
 	@Path("/add")
-	void addToDo(ToDoDTO toDo, SingleCallback<ToDoDTO> callback);
+	void addToDo(ToDoDTO toDo, SingleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 	@DELETE
 	@Path("/delete/{id}")
-	void deleteToDo(@PathParam("id") Integer id, CompletableCallback callback);
+	void deleteToDo(@PathParam("id") Integer id, CompletableCallback callback, ErrorCallback errorCallback);
 
 	@POST
 	@Path("/search/{query}")
-	void searchToDos(@PathParam("query") String query, MultipleCallback<ToDoDTO> callback);
+	void searchToDos(@PathParam("query") String query, MultipleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 }

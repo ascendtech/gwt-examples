@@ -9,7 +9,6 @@ import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
-import us.ascendtech.gwt.simplerest.client.MultipleCallback;
 
 @Component
 public class SyncWorkaroundComponent implements IsVueComponent {
@@ -30,19 +29,12 @@ public class SyncWorkaroundComponent implements IsVueComponent {
 	void watchMessage(String newValue, String oldValue) {
 		if (newValue != null && newValue.length() > 1) {
 			items = new JsArray<>();
-			ServiceProvider.get().getTodoServiceClient().searchToDos(newValue, new MultipleCallback<ToDoDTO>() {
-
-				@Override
-				public void onError(int statusCode, String status, String errorBody) {
-					DomGlobal.console.log(status + ":" + errorBody);
-					isLoading = false;
-				}
-
-				@Override
-				public void onData(ToDoDTO[] data) {
-					items.push(data);
-					isLoading = false;
-				}
+			ServiceProvider.get().getTodoServiceClient().searchToDos(newValue, data -> {
+				items.push(data);
+				isLoading = false;
+			}, (statusCode, status, errorBody) -> {
+				DomGlobal.console.log(status + ":" + errorBody);
+				isLoading = false;
 			});
 
 		}

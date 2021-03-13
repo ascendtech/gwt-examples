@@ -17,9 +17,7 @@ import us.ascendtech.client.aggrid.ColumnDefinition;
 import us.ascendtech.client.aggrid.GridApi;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.client.services.ServiceProvider;
-import us.ascendtech.gwt.simplerest.client.CompletableCallback;
-import us.ascendtech.gwt.simplerest.client.MultipleCallback;
-import us.ascendtech.gwt.simplerest.client.SingleCallback;
+import us.ascendtech.gwt.simplerest.client.ErrorCallback;
 
 @Component
 public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated, ResizeHandler {
@@ -45,6 +43,8 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 	@Data
 	String tableHeight;
 
+	private ErrorCallback errorHandler;
+
 	@JsMethod
 	void addToTable() {
 		if (inputTodo == null || inputTodo.isEmpty()) {
@@ -55,18 +55,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 			ToDoDTO newToDoDTO = new ToDoDTO();
 			newToDoDTO.setTodo(inputTodo);
 			rowData.push(newToDoDTO);
-			ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO, new SingleCallback<ToDoDTO>() {
-				@Override
-				public void onData(ToDoDTO data) {
-					newToDoDTO.setId(data.getId());
-				}
-
-				@Override
-				public void onError(int statusCode, String status, String errorBody) {
-					error = errorBody;
-					showError = true;
-				}
-			});
+			ServiceProvider.get().getTodoServiceClient().addToDo(newToDoDTO, data -> newToDoDTO.setId(data.getId()), errorHandler);
 			inputTodo = "";
 		}
 	}
@@ -76,19 +65,8 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 		if (gridApi.getSelectedRows().length > 0) {
 			gridApi.getSelectedRows().forEach((currentValue, index, array) -> {
 				rowData.splice(rowData.indexOf(currentValue), 1);
-				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId(), new CompletableCallback() {
-					@Override
-					public void onDone() {
-
-					}
-
-					@Override
-					public void onError(int statusCode, String status, String errorBody) {
-						error = errorBody;
-						showError = true;
-					}
-
-				});
+				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId(), () -> {
+				}, errorHandler);
 				return null;
 			});
 		}
@@ -107,6 +85,15 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 	@Override
 	public void beforeMount() {
+
+		errorHandler = new ErrorCallback() {
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				error = errorBody;
+				showError = true;
+			}
+		};
+
 		ColumnDefinition<ToDoDTO> todoColumn = new ColumnDefinition<>();
 		todoColumn.setHeaderName("ToDo");
 		todoColumn.setField("todo");
@@ -116,18 +103,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 
 		rowData = new JsArray<>();
 
-		ServiceProvider.get().getTodoServiceClient().getCurrentToDos(new MultipleCallback<ToDoDTO>() {
-			@Override
-			public void onData(ToDoDTO[] data) {
-				rowData.push(data);
-			}
-
-			@Override
-			public void onError(int statusCode, String status, String errorBody) {
-				error = errorBody;
-				showError = true;
-			}
-		});
+		ServiceProvider.get().getTodoServiceClient().getCurrentToDos(data -> rowData.push(data), errorHandler);
 
 		// this is not used for anything, just showing how to iterate through a JsArray
 		for (ToDoDTO toDoDTO : Elements.elements(rowData)) {
