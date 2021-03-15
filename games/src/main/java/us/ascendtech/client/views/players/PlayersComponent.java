@@ -12,9 +12,7 @@ import jsinterop.annotations.JsMethod;
 import us.ascendtech.client.dto.PlayerDTO;
 import us.ascendtech.client.dto.PlayerTableHeaderDTO;
 import us.ascendtech.client.services.ServiceProvider;
-import us.ascendtech.gwt.simplerest.client.CompletableCallback;
-import us.ascendtech.gwt.simplerest.client.MultipleCallback;
-import us.ascendtech.gwt.simplerest.client.SingleCallback;
+import us.ascendtech.gwt.simplerest.client.ErrorCallback;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -42,6 +40,8 @@ public class PlayersComponent implements IsVueComponent, HasCreated {
 	JsArray<PlayerDTO> currentPlayer = new JsArray<>();
 	@Data
 	String gameKey;
+
+	private ErrorCallback errorHandler;
 
 	@Watch("dialog")
 	void dialogChanged(boolean newVal, boolean oldVal) {
@@ -113,18 +113,8 @@ public class PlayersComponent implements IsVueComponent, HasCreated {
 		if (currentPlayer.length != 0 && currentPlayer.getAt(0).getId() == item.getId()) {
 			nextPlayer();
 		}
-		ServiceProvider.get().getPlayersServiceClient().remove(gameKey, item.getId(), new CompletableCallback() {
-			@Override
-			public void onDone() {
-				players = players.filter((player, index, array) -> index != removeIndex);
-			}
-
-			@Override
-			public void onError(int statusCode, String status, String errorBody) {
-				error = errorBody;
-				showError = true;
-			}
-		});
+		ServiceProvider.get().getPlayersServiceClient()
+				.remove(gameKey, item.getId(), () -> players = players.filter((player, index, array) -> index != removeIndex), errorHandler);
 	}
 
 	@JsMethod
@@ -132,38 +122,17 @@ public class PlayersComponent implements IsVueComponent, HasCreated {
 		String name = this.editedItem.getName();
 		if (this.editedIndex == -1) {
 			//New Player
-			ServiceProvider.get().getPlayersServiceClient().add(gameKey, name, new SingleCallback<PlayerDTO>() {
-				@Override
-				public void onData(PlayerDTO player) {
-					DomGlobal.console.log("New Player id", player.getId());
-					players.push(player);
-				}
-
-				@Override
-				public void onError(int statusCode, String status, String errorBody) {
-					error = errorBody;
-					showError = true;
-				}
-			});
+			ServiceProvider.get().getPlayersServiceClient().add(gameKey, name, player -> players.push(player), errorHandler);
 		}
 		else {
 			//Existing Player
 			int id = this.editedItem.getId();
-			ServiceProvider.get().getPlayersServiceClient().rename(gameKey, id, this.editedItem.getName(), new CompletableCallback() {
-				@Override
-				public void onDone() {
-					PlayerDTO current = players.find((p, index, arr) -> p.getId() == id);
-					if (current != null) {
-						current.setName(name);
-					}
+			ServiceProvider.get().getPlayersServiceClient().rename(gameKey, id, this.editedItem.getName(), () -> {
+				PlayerDTO current = players.find((p, index, arr) -> p.getId() == id);
+				if (current != null) {
+					current.setName(name);
 				}
-
-				@Override
-				public void onError(int statusCode, String status, String errorBody) {
-					error = errorBody;
-					showError = true;
-				}
-			});
+			}, errorHandler);
 		}
 		this.close();
 	}
@@ -203,26 +172,25 @@ public class PlayersComponent implements IsVueComponent, HasCreated {
 
 	@Override
 	public void created() {
-		createTableHeaders();
-		gameKey = Arrays.stream(DomGlobal.document.cookie.split("; ")).filter(cookie -> cookie.startsWith("gameKey=")).map(gameKey -> gameKey.substring(8))
-				.findFirst().orElse("");
-
-		ServiceProvider.get().getPlayersServiceClient().getPlayers(gameKey, new MultipleCallback<PlayerDTO>() {
-			@Override
-			public void onData(PlayerDTO[] playersList) {
-				for (PlayerDTO player : playersList) {
-					players.push(player);
-				}
-				if (players.length > 0) {
-					currentPlayer = new JsArray<>(players.getAt(0));
-				}
-			}
-
+		errorHandler = new ErrorCallback() {
 			@Override
 			public void onError(int statusCode, String status, String errorBody) {
 				error = errorBody;
 				showError = true;
 			}
-		});
+		};
+
+		createTableHeaders();
+		gameKey = Arrays.stream(DomGlobal.document.cookie.split("; ")).filter(cookie -> cookie.startsWith("gameKey=")).map(gameKey -> gameKey.substring(8))
+				.findFirst().orElse("");
+
+		ServiceProvider.get().getPlayersServiceClient().getPlayers(gameKey, playersList -> {
+			for (PlayerDTO player : playersList) {
+				players.push(player);
+			}
+			if (players.length > 0) {
+				currentPlayer = new JsArray<>(players.getAt(0));
+			}
+		}, errorHandler);
 	}
 }

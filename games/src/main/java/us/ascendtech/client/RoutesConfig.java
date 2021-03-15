@@ -21,7 +21,7 @@ public class RoutesConfig implements CustomizeOptions {
 		routerOptions.addRoute(new RouteConfig().setPath("/trivia").setName("trivia").setComponent(TriviaComponentFactory.get().getJsConstructor()));
 
 		// We need to create our router
-		VueRouter vueRouter = new VueRouter(routerOptions);
+		VueRouter vueRouter = VueRouterProvider.getInstance().getRouter();
 
 		// And set it on our Component options
 		componentOptions.set("router", vueRouter);

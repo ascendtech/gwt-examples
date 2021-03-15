@@ -1,6 +1,7 @@
 package us.ascendtech.client.services;
 
 import us.ascendtech.client.dto.GameKeyDTO;
+import us.ascendtech.gwt.simplerest.client.ErrorCallback;
 import us.ascendtech.gwt.simplerest.client.SimpleRestGwt;
 import us.ascendtech.gwt.simplerest.client.SingleCallback;
 
@@ -13,9 +14,9 @@ import javax.ws.rs.PathParam;
 public interface SessionServiceClient {
 	@GET
 	@Path("/new")
-	void newSession(SingleCallback<GameKeyDTO> callback);
+	void newSession(SingleCallback<GameKeyDTO> callback, ErrorCallback errorCallback);
 
 	@GET
 	@Path("/exists/{gameKey}")
-	void exists(@PathParam("gameKey") String gameKey, SingleCallback<Boolean> callback);
+	void exists(@PathParam("gameKey") String gameKey, SingleCallback<Boolean> callback, ErrorCallback errorCallback);
 }
