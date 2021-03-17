@@ -156,6 +156,12 @@ public class TriviaComponent implements IsVueComponent, HasCreated {
 			difficulty = difficulties.find((difficulty, index, arr) -> difficulty.toLowerCase() == state.getDifficulty().toLowerCase());
 			category = state.getCategory();
 			setQuestion(state.getQuestion());
-		}, errorHandler);
+		}, new ErrorCallback() {
+			@Override
+			public void onError(int statusCode, String status, String errorBody) {
+				//If couldn't pull state, the session is invalid so bounce.
+				VueRouterProvider.getInstance().getRouter().push("/");
+			}
+		});
 	}
 }

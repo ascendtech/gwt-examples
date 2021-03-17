@@ -12,6 +12,11 @@
     </v-row>
     <v-row>
         <v-col>
+            <span>Game Key: {{gameKey}}</span>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col>
             <v-card elevation="3">
                 <v-card-title
                         style="word-break: normal"
@@ -71,9 +76,6 @@
                     </v-btn>
                 </v-row>
             </v-card>
-        </v-col>
-        <v-col>
-            <span>Game Key: {{gameKey}}</span>
         </v-col>
         <v-col>
             <players ref="playersComponent"/>

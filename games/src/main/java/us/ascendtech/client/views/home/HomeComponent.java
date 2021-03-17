@@ -6,6 +6,7 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
+import us.ascendtech.client.VueRouterProvider;
 import us.ascendtech.client.services.ServiceProvider;
 import us.ascendtech.gwt.simplerest.client.ErrorCallback;
 
@@ -33,6 +34,7 @@ public class HomeComponent implements IsVueComponent, HasCreated {
 			DomGlobal.document.cookie = "gameKey=" + data.getGameKey();
 			DomGlobal.console.debug("Cookie:", DomGlobal.document.cookie);
 			gameKey = data.getGameKey();
+			VueRouterProvider.getInstance().getRouter().push("/trivia");
 		}, errorHandler);
 	}
 
