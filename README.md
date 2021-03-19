@@ -1,39 +1,50 @@
-A GWT example project using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
+Two GWT example project using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
+
+todoMaterial and todoRest are documented below but games and gamesRest work in the same way.
 
 # Getting Started
 
-Run REST service
+Run the example REST service backend
 ```bash
 cd todoRest && ../gradlew run
 ```
 
 Run frontend in dev mode (requires 3 different terminals)
 ```bash
-cd todoMaterial && ../gradlew webpack5Dev
+
+# listens on port 8888 and forwards the module path to gwt super dev mod and the everything else to webpack
 cd todoMaterial && ../gradlew gwtDev
+
+# runs webpack on port 8080 and also proxies requests to the rest service
+cd todoMaterial && ../gradlew webpack5Dev
+
+# because Vue GWT and SimpleRest use APT generation, run a continous java build to trigger on changes
 cd todoMaterial && ../gradlew compileJava --build-cache -t
+
 ```
 Open browser to http://localhost:8888/
 
-Alternatively, you could also run the REST service using docker:
-
-```bash
-#make sure your user is in the docker group or has permissions to docker service
-cd todoRest && ../gradlew dockerBuild
-docker run -p 12111:12111 todoRest
-```
-
 In dev mode a refresh will recompile GWT, CSS, JS, and webpack changes.
 
-Compile deploy
+
+## Deploying
 ```bash
-#deploy service with proxy in front (/service/todo to localhost:12111) (run service using java -jar)
+#deploy service with proxy in front (/service/todo to localhost:12111) 
 cd todoRest && ../gradlew shadowJar
+java -jar build/libs/todoRest-all.jar
 
 #copy to archive in build/webapp to nginx or apache
 cd todoMaterial && ../gradlew gwtArchive
 
-#OR use docker
+```
+
+## Deploying using Docker
+
+```bash
+#make sure your user is in the docker group or has permissions to docker service
 docker build . -t todomaterial:latest
 docker run -p 80:80 todomaterial
+
+cd todoRest && ../gradlew dockerBuild
+docker run -p 12111:12111 todoRest
 ```
