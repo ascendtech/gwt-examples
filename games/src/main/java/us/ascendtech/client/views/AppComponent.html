@@ -1,0 +1,44 @@
+<v-app id="app">
+    <v-navigation-drawer
+            app
+            fixed
+            v-model="drawer"
+    >
+        <v-list
+                dense
+                nav
+        >
+            <v-list-item @click="drawer = !drawer" to="/">
+                <v-list-item-action>
+                    <v-icon>home</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Home
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="drawer = !drawer" to="/trivia">
+                <v-list-item-action>
+                    <v-icon>mdi-head-question</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Trivia
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+    <v-app-bar app clipped-right color="primary" dark fixed flat>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title>Demo</v-toolbar-title>
+    </v-app-bar>
+    <v-main>
+        <router-view></router-view>
+    </v-main>
+    <v-footer app color="primary">
+        <a class="white--text" href="http://www.ascend-tech.us" style="text-decoration: none; margin-left: 5px">© {{currentYear}} Backed by Ascendant Software
+            Technology, LLC</a>
+    </v-footer>
+</v-app>

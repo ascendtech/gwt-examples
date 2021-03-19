@@ -1,0 +1,10 @@
+micronaut:
+  server:
+    port: 12111
+    multipart:
+      max-file-size: 20000000
+      enabled: true
+    cors:
+      enabled: true
+  application:
+    name: games-service

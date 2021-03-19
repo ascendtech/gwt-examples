@@ -1,0 +1,60 @@
+<vue-gwt:import class="us.ascendtech.client.dto.PlayerDTO"/>
+
+<v-container fluid>
+    <v-data-table
+            :headers="headers"
+            :items="players"
+            class="elevation-3"
+            dense
+            hide-default-footer
+            sort-by="id"
+            v-model="currentPlayer"
+    >
+        <template slot="top">
+            <v-toolbar flat>
+                <v-toolbar-title>Players</v-toolbar-title>
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-spacer></v-spacer>
+                <v-dialog max-width="500px" v-model="dialog">
+                    <template slot="activator" slot-scope="{ Object on, Object attrs }">
+                        <v-btn class="mb-2" color="primary" dark v-bind="attrs" v-on="on">
+                            Add Player
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">{{ formTitle }}</span>
+                        </v-card-title>
+
+                        <v-card-text>
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="12" md="4" sm="6">
+                                        <v-text-field
+                                                @keyup.enter="save"
+                                                label="Name"
+                                                ref="nameTextField"
+                                                v-model="editedName"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="close" color="blue darken-1" text>
+                                Cancel
+                            </v-btn>
+                            <v-btn @click="save" color="blue darken-1" text> Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-toolbar>
+        </template>
+        <template slot="item.actions" slot-scope="{ PlayerDTO item }">
+            <v-icon @click="editItem(item)" class="mr-2" small> mdi-pencil</v-icon>
+            <v-icon @click="deleteItem(item)" small> mdi-delete</v-icon>
+        </template>
+    </v-data-table>
+</v-container>
