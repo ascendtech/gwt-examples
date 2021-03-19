@@ -1,6 +1,6 @@
 import java.io.FilenameFilter
 
-val excludes = listOf(".gradle", ".git", ".idea", "build", "cert", "gradle", "notInMaven")
+val excludes = listOf(".gradle", ".git", ".idea", "build", "buildSrc", "cert", "gradle", "notInMaven")
 
 val dirFilter = FilenameFilter { dir, name -> File(dir, name).isDirectory }
 
