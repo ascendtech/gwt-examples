@@ -1,6 +1,8 @@
-Two GWT example project using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
-
-todoMaterial and todoRest are documented below but games and gamesRest work in the same way.
+Two GWT example projects using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
+* todoMaterial / todoRest
+* games / gamesRest
+ 
+ The Todo project is documented below but the games project works the same way
 
 # Getting Started
 
