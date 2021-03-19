@@ -29,9 +29,14 @@ public class SyncWorkaroundComponent implements IsVueComponent {
 	void watchMessage(String newValue, String oldValue) {
 		if (newValue != null && newValue.length() > 1) {
 			items = new JsArray<>();
-			ServiceProvider.get().getTodoServiceClient().searchToDos(newValue).subscribe(items::push, onError -> DomGlobal.console.log(onError), () -> {
+			ServiceProvider.get().getTodoServiceClient().searchToDos(newValue, data -> {
+				items.push(data);
+				isLoading = false;
+			}, (statusCode, status, errorBody) -> {
+				DomGlobal.console.log(status + ":" + errorBody);
 				isLoading = false;
 			});
+
 		}
 	}
 
