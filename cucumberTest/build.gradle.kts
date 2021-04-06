@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    testImplementation("io.cucumber:cucumber-java:6.8.1")
-    testImplementation("org.seleniumhq.selenium:selenium-java:3.14.0")
+    testImplementation("io.cucumber:cucumber-java:6.10.2")
+    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
 }
 
 configurations {
@@ -13,13 +13,13 @@ configurations {
     }
 }
 
-task("cucumber") {
+task("cucumberTodo") {
     dependsOn("assemble", "testClasses")
     doLast {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.getByName("cucumberRuntime") + sourceSets.main.get().output + sourceSets.test.get().output
-            args = listOf("--plugin", "pretty", "--glue", "src/test/resources")
+            args = listOf("--plugin", "pretty", "--glue", "todo", "src/test/resources/todo")
         }
     }
 }
