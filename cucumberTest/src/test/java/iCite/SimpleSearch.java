@@ -1,21 +1,22 @@
 package iCite;
 
+import io.cucumber.gherkin.AstNode;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 
 //SimpleSearch
 public class SimpleSearch {
     private WebDriver driver;
+    private AstNode set;
 
     @Given("I am on the iCite page.")
     public void iAmOnTheiCitePage() {
@@ -129,4 +130,37 @@ public class SimpleSearch {
     {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
+
+    //Keyboard Navigation TAB button
+
+    @When("I click the HOME button.")
+    public void iclickthehomebutton()
+    {
+        driver.findElement(By.xpath("//img[contains(@class,'img-responsive GFX3K41BN')]")).click();
+    }
+
+    @When("I click in the SEARCH field.")
+    public void iclickinthesearchfield()
+    {
+        WebElement element = driver.findElement(By.xpath("//input[@class='form-control GFX3K41IP']"));
+        WebDriverWait wait = new WebDriverWait(driver, 20); //here, wait time is 20 seconds
+        wait.until(ExpectedConditions.visibilityOf(element)); //this will wait for element to be visible for 20 seconds
+        element.click(); //now it clicks on element
+    }
+
+    @When("I click the TAB button.")
+    public void iclickthetabbutton()
+    {
+        WebElement inputField = driver.findElement(By.xpath("//input[@class='form-control GFX3K41IP']"));
+        inputField.sendKeys(Keys.TAB);
+
+    }
+
+    @Then("I will be moved to the next focusable field.")
+    public void iwillbemovedtothenextfocusablefield()
+    {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    }
+
 }
+
