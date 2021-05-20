@@ -10,6 +10,7 @@ gwt {
     libs.add("ast-highcharts")
     libs.add("ast-aggrid")
     libs.add("ast-momentjs")
+    libs.add("ast-wordcloud")
 }
 
 dependencies {

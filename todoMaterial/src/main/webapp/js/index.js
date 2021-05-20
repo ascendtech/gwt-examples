@@ -15,6 +15,7 @@ import {AgGridVue} from 'ag-grid-vue';
 import Highcharts from 'highcharts';
 import 'es7-object-polyfill';
 import moment from 'moment';
+import WordCloud from "../../../../node_modules/wordcloud/src/wordcloud2";
 
 Vue.use(Vuetify);
 
@@ -28,5 +29,6 @@ window.Vuetify = Vuetify;
 window.VueRouter = VueRouter;
 window.Highcharts = Highcharts;
 window.Moment = moment;
+window.WordCloud = WordCloud;
 
 

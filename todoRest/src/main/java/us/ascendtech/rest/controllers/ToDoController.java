@@ -9,11 +9,16 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import io.micronaut.http.annotation.QueryValue;
+import us.ascendtech.rest.dto.Term;
 import us.ascendtech.rest.dto.ToDo;
 import us.ascendtech.rest.services.ToDoService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Controller("/service/todo")
 public class ToDoController {
@@ -26,14 +31,14 @@ public class ToDoController {
 
 	@Get("/list")
 	public HttpResponse<Collection<ToDo>> list() {
-		return HttpResponse.created(todoService.getCurrentTODOs());
+		return HttpResponse.ok(todoService.getCurrentTODOs());
 	}
 
 	@Put("/add")
 	public HttpResponse<ToDo> add(@Body ToDo todo) {
 		System.out.println(todo);
 		todoService.addTodo(todo);
-		return HttpResponse.created(todo);
+		return HttpResponse.ok(todo);
 	}
 
 	@Delete("/delete/{id}")
@@ -52,7 +57,26 @@ public class ToDoController {
 			}
 		}
 
-		return HttpResponse.created(todos);
+		return HttpResponse.ok(todos);
+
+	}
+
+	@Get("/terms")
+	public HttpResponse<?> getTerms() {
+
+		Collection<Term> data = new ArrayList<>();
+		try (BufferedReader buffer = new BufferedReader(
+				new InputStreamReader(Objects.requireNonNull(ToDoController.class.getResourceAsStream("/words.txt"))))) {
+			buffer.lines().forEach(s -> {
+				String[] tokens = s.split("\\s");
+				data.add(new Term(tokens[1], Double.valueOf(tokens[0])));
+			});
+		}
+		catch (IOException e) {
+			return HttpResponse.serverError(e.getMessage());
+		}
+
+		return HttpResponse.ok(data);
 
 	}
 

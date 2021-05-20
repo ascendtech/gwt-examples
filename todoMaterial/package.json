@@ -39,6 +39,7 @@
     "highcharts": "^9.0.0",
     "vue-smooth-dnd": "^0.8.1",
     "vue-split-panel": "^1.0.4",
-    "vue2-dropzone": "^3.6.0"
+    "vue2-dropzone": "^3.6.0",
+    "wordcloud": "^1.2.1"
   }
 }

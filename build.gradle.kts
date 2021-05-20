@@ -1,8 +1,8 @@
 plugins {
     java
 
-    id("us.ascendtech.gwt.lib") version "0.5.26" apply false
-    id("us.ascendtech.gwt.modern") version "0.5.26" apply false
+    id("us.ascendtech.gwt.lib") version "0.5.29" apply false
+    id("us.ascendtech.gwt.modern") version "0.5.29" apply false
 
 }
 

@@ -1,5 +1,6 @@
 package us.ascendtech.client.services;
 
+import us.ascendtech.client.dto.TermDTO;
 import us.ascendtech.client.dto.ToDoDTO;
 import us.ascendtech.gwt.simplerest.client.CompletableCallback;
 import us.ascendtech.gwt.simplerest.client.ErrorCallback;
@@ -34,4 +35,7 @@ public interface ToDoServiceClient {
 	@Path("/search/{query}")
 	void searchToDos(@PathParam("query") String query, MultipleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
+	@GET
+	@Path("/terms")
+	void getTerms(MultipleCallback<TermDTO> callback, ErrorCallback errorCallback);
 }

@@ -4,8 +4,15 @@
             <v-btn color="secondary" v-on:click="createChart">Create Chart</v-btn>
             <div class="mt-2" id="columnChart"></div>
         </v-col>
+    </v-row>
+    <v-row>
         <v-col sm="12" md="8" offset-md="2">
-            <div class="mt-2" id="mySVGChart"></div>
+            <div id="mySVGChart"></div>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col sm="12" md="8" offset-md="2">
+            <canvas width="1170" height="760" id="myWordCloud"></canvas>
         </v-col>
     </v-row>
 </v-container>

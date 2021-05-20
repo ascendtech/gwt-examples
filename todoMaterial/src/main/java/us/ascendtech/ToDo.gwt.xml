@@ -10,6 +10,7 @@
     <inherits name="us.ascendtech.AGGrid"/>
     <inherits name="us.ascendtech.highcharts.Highcharts"/>
     <inherits name="us.ascendtech.momentjs.MomentJS"/>
+    <inherits name="us.ascendtech.wordcloud2js.WorldCloud2js"/>
     <inherits name="org.jboss.elemento.Core"/>
 
     <entry-point class='us.ascendtech.client.ToDo'/>

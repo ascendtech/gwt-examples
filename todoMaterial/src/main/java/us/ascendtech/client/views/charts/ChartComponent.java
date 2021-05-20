@@ -8,6 +8,8 @@ import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.annotations.JsMethod;
 import jsinterop.base.JsPropertyMap;
+import us.ascendtech.client.dto.TermDTO;
+import us.ascendtech.client.services.ServiceProvider;
 import us.ascendtech.highcharts.client.ChartOptions;
 import us.ascendtech.highcharts.client.Highcharts;
 import us.ascendtech.highcharts.client.SVGRenderer;
@@ -16,6 +18,8 @@ import us.ascendtech.highcharts.client.chartoptions.chart.Chart;
 import us.ascendtech.highcharts.client.chartoptions.chart.ChartEvents;
 import us.ascendtech.highcharts.client.chartoptions.series.Series;
 import us.ascendtech.highcharts.client.chartoptions.shared.SeriesTypes;
+import us.ascendtech.wordcloud2js.client.WordCloud2JS;
+import us.ascendtech.wordcloud2js.client.WordCloud2JSOptions;
 
 @Component
 public class ChartComponent implements IsVueComponent {
@@ -62,6 +66,26 @@ public class ChartComponent implements IsVueComponent {
 		catch (Exception e) {
 			DomGlobal.console.log(e);
 		}
+
+		ServiceProvider.get().getTodoServiceClient().getTerms(terms -> {
+			JsArray<JsArray<Object>> data = new JsArray<>();
+			for (TermDTO term : terms) {
+				data.push(new JsArray<>(term.getTerm(), term.getWeight()));
+			}
+
+			// create options object and set the data.
+			WordCloud2JSOptions options = new WordCloud2JSOptions().setList(data);
+			options.setClick(item -> DomGlobal.console.log(item));
+			options.setWeightFactor(size -> Math.pow(size, 2.3) * DomGlobal.document.getElementById("myWordCloud").clientWidth / 1024);
+			options.setGridSize((double) Math.round(16 * DomGlobal.document.getElementById("myWordCloud").clientWidth / 1024));
+			options.setRotateRatio(0.5);
+			options.setRotationSteps(2d);
+			options.setBackgroundColor("#ffe0e0");
+			options.setColor(((item, weight) -> weight == 12 ? "#f02222" : "#c09292"));
+			options.setFontFamily("Times, serif");
+
+			new WordCloud2JS("myWordCloud", options);
+		}, (status, message, body) -> DomGlobal.console.log(body));
 
 	}
 }
