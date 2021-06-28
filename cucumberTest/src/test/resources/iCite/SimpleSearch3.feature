@@ -1,4 +1,4 @@
-Feature: Open the User Guide.
+Feature: Search with OR
   Scenario: As a user, I want to perform a search using the OR function.
     Given I am on the iCite page.
     When I click my mouse in the Search query field.
