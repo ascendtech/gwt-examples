@@ -5,5 +5,3 @@ Feature: Open the User Guide.
     And I search for COVID or SYMPTOMS.
     And I click the magnifying glass.
     Then all results for COVID or SYMPTOMS will be displayed.
-
-

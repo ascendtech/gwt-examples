@@ -5,5 +5,3 @@ Scenario Outline: As a user, I want to perform a search using the AND function.
 	    And I search for COVID and SYMPTOMS.
 	    And I click the magnifying glass.
         Then all results for COVID as well as SYMPTOMS will be displayed.
-
-

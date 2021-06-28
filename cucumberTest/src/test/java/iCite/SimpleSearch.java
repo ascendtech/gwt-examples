@@ -1,22 +1,22 @@
 package iCite;
 
-import io.cucumber.gherkin.AstNode;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
 
-import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 
 //SimpleSearch
 public class SimpleSearch {
     private WebDriver driver;
-    private AstNode set;
 
     @Given("I am on the iCite page.")
     public void iAmOnTheiCitePage() {
@@ -75,92 +75,56 @@ public class SimpleSearch {
     }
     //Simple Search using a date range
 
-    @When("I click advancedFilter.")
-    public void iclickadvancedFilter()
-    {
-        //driver.findElement(By.id("advancedFilter"));
-        WebElement element = driver.findElement(By.id("advancedFilter"));
-        WebDriverWait wait = new WebDriverWait(driver, 20); //here, wait time is 20 seconds
+    @When("I click the Advanced Filter icon.")
+    public void iclicktheadvancedfiltericon() {
+        WebElement element = driver.findElement(By.xpath("//button[@title='Advanced Filters']"));
+        WebDriverWait wait = new WebDriverWait(driver, 5); //here, wait time is 5 seconds
         wait.until(ExpectedConditions.visibilityOf(element)); //this will wait for element to be visible for 20 seconds
         element.click(); //now it clicks on element
     }
 
     @When("I click the From box.")
-    public void iclickthefrombox()
-
-    {
+    public void iclickthefrombox() {
         //"FROM BOX"
         WebElement element = driver.findElement(By.xpath("//input[@class='form-control']"));
         WebDriverWait wait = new WebDriverWait(driver, 5); //here, wait time is 5 seconds
         wait.until(ExpectedConditions.visibilityOf(element)); //this will wait for element to be visible for 20 seconds
         element.click(); //now it clicks on element
     }
+
     @When("I enter 2021-03-03.")
-    public void ienter20210303()
-    {
+    public void ienter20210303() {
         //"Enters start date. This is the line for the FROM Date Picker")
         driver.findElement(By.xpath("//input[@class='form-control']")).sendKeys("2021-03-03");
     }
 
     @When("I click the To box.")
-    public void iclickthetobox()
-    {
+    public void iclickthetobox() {
         //"TO BOX"
         WebElement element = driver.findElement(By.xpath("(//input[@class='form-control'])[2]"));
         WebDriverWait wait = new WebDriverWait(driver, 5); //here, wait time is 5 seconds
         wait.until(ExpectedConditions.visibilityOf(element)); //this will wait for element to be visible for 20 seconds
         element.click(); //now it clicks on element
     }
+
     @When("I enter 2021-04-26.")
-    public void ienter20210426()
-    {
+    public void ienter20210426() {
         //"Enters start date. This is the line for the To Date Picker")
         driver.findElement(By.xpath("(//input[@class='form-control'])[2]")).sendKeys("2021-04-26");
 
     }
 
     @When("I click the Apply filters button.")
-    public void iclicktheapplyfiltersbutton()
-    {
+    public void iclicktheapplyfiltersbutton() {
         //Clicks apply filter button
         driver.findElement(By.xpath("//button[contains(@class,'btn btn-sm')]")).click();
+
     }
+
     @Then("all publications will be displayed.")
-    public void allpublicationswithinthedaterangewillbedisplayedandiamdonewithmytest()
-    {
+    public void allpublicationswithinthedaterangewillbedisplayedandiamdonewithmytest() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    //Keyboard Navigation TAB button
-
-    @When("I click the HOME button.")
-    public void iclickthehomebutton()
-    {
-        driver.findElement(By.xpath("//img[contains(@class,'img-responsive GFX3K41BN')]")).click();
-    }
-
-    @When("I click in the SEARCH field.")
-    public void iclickinthesearchfield()
-    {
-        WebElement element = driver.findElement(By.xpath("//input[@class='form-control GFX3K41IP']"));
-        WebDriverWait wait = new WebDriverWait(driver, 20); //here, wait time is 20 seconds
-        wait.until(ExpectedConditions.visibilityOf(element)); //this will wait for element to be visible for 20 seconds
-        element.click(); //now it clicks on element
-    }
-
-    @When("I click the TAB button.")
-    public void iclickthetabbutton()
-    {
-        WebElement inputField = driver.findElement(By.xpath("//input[@class='form-control GFX3K41IP']"));
-        inputField.sendKeys(Keys.TAB);
-
-    }
-
-    @Then("I will be moved to the next focusable field.")
-    public void iwillbemovedtothenextfocusablefield()
-    {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
 
 }
-
