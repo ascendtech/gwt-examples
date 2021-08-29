@@ -2,9 +2,9 @@ package us.ascendtech.rest.services;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import jakarta.inject.Singleton;
 import us.ascendtech.rest.dto.ToDo;
 
-import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;

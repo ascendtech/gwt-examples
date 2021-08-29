@@ -26,7 +26,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-jul:$log4jVersion")
-
+    implementation("io.micronaut.reactor:micronaut-reactor")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
