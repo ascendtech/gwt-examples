@@ -6,7 +6,6 @@ application {
     mainClass.set("us.ascendtech.rest.ToDoApplication")
 }
 
-
 tasks.withType<io.micronaut.gradle.docker.MicronautDockerfile>() {
     exposedPorts.add(12111)
 }

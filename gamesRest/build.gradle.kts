@@ -1,12 +1,6 @@
-
-
 plugins {
     micronaut_rest_convention
 }
-
-val micronautVersion: String by project
-val log4jVersion: String by project
-
 
 application {
     mainClass.set("us.ascendtech.rest.GamesApplication")
