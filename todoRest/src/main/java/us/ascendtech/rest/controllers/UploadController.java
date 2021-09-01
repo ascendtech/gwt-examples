@@ -39,9 +39,14 @@ public class UploadController {
 	public Publisher<HttpResponse<DropzoneResponse>> upload(StreamingFileUpload file) throws IOException {
 
 		File tempFile = File.createTempFile(file.getFilename(), "temp");
+
+		//work around for
+		//https://github.com/micronaut-projects/micronaut-core/issues/6084
+		//not needed here because we have a file but in other cases were an outputstream is needed
 		Publisher<Boolean> uploadPublisher = TransferToStream.transferToStream(ioExecutor, file, new FileOutputStream(tempFile));
 
 		return Mono.from(uploadPublisher).map(success -> {
+
 			if (success) {
 				try {
 					if (tempFile.getAbsolutePath().contains(".txt")) {
