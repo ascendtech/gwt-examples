@@ -14,13 +14,13 @@ public class ServiceProvider {
 		return serviceProvider;
 	}
 
-	private final ToDoServiceClient todoServiceClient;
+	private ToDoServiceClientSimpleRest todoServiceClient;
 
 	private ServiceProvider() {
 		todoServiceClient = new ToDoServiceClientSimpleRest(DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host);
 	}
 
-	public ToDoServiceClient getTodoServiceClient() {
+	public ToDoServiceClientSimpleRest getTodoServiceClient() {
 		return todoServiceClient;
 	}
 
