@@ -2,6 +2,14 @@ plugins {
     id("us.ascendtech.gwt.modern")
 }
 
+
+tasks.register<us.ascendtech.js.npm.NpmTask>("webpackNew") {
+    dependsOn("npmInstallDep", "npmInstall")
+    baseCmd.set("webpack")
+    baseArgs.addAll("serve", "--mode=development")
+}
+
+
 gwt {
     modules.add("us.ascendtech.ToDo")
     libs.add("vue")

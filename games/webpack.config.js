@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
 
 module.exports = {
     resolve: {
@@ -52,6 +53,12 @@ module.exports = {
     },
     devServer: {
         port: 8080,
+        static: {
+            directory: path.resolve(__dirname, "src", "main", "webapp", "public"),
+            publicPath: "/",
+            serveIndex: true,
+            watch: true,
+        },
         proxy: {
             '/service': {
                 target: 'http://localhost:12111',
