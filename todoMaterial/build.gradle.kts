@@ -3,12 +3,17 @@ plugins {
 }
 
 
-tasks.register<us.ascendtech.js.npm.NpmTask>("webpackNew") {
+tasks.register<us.ascendtech.js.npm.NpmTask>("npmAudit") {
     dependsOn("npmInstallDep", "npmInstall")
-    baseCmd.set("webpack")
-    baseArgs.addAll("serve", "--mode=development")
+    baseCmd.set("npm")
+    baseArgs.addAll("audit")
 }
 
+tasks.register<us.ascendtech.js.npm.NpmTask>("npmAuditFix") {
+    dependsOn("npmInstallDep", "npmInstall")
+    baseCmd.set("npm")
+    baseArgs.addAll("audit", "fix")
+}
 
 gwt {
     modules.add("us.ascendtech.ToDo")

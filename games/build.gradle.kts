@@ -12,6 +12,18 @@ gwt {
     libs.add("ast-momentjs")
 }
 
+tasks.register<us.ascendtech.js.npm.NpmTask>("npmAudit") {
+    dependsOn("npmInstallDep", "npmInstall")
+    baseCmd.set("npm")
+    baseArgs.addAll("audit")
+}
+
+tasks.register<us.ascendtech.js.npm.NpmTask>("npmAuditFix") {
+    dependsOn("npmInstallDep", "npmInstall")
+    baseCmd.set("npm")
+    baseArgs.addAll("audit", "fix")
+}
+
 dependencies {
 }
 
