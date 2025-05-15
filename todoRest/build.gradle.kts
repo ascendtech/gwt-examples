@@ -11,5 +11,5 @@ tasks.withType<io.micronaut.gradle.docker.MicronautDockerfile>() {
 }
 
 dependencies {
-    implementation("com.google.guava:guava:27.1-jre")
+    implementation("com.google.guava:guava:32.0.1-android")
 }

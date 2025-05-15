@@ -17,7 +17,7 @@ task("cucumberTodo") {
     dependsOn("assemble", "testClasses")
     doLast {
         javaexec {
-            main = "io.cucumber.core.cli.Main"
+            mainClass.set("io.cucumber.core.cli.Main")
             classpath = configurations.getByName("cucumberRuntime") + sourceSets.main.get().output + sourceSets.test.get().output
             args = listOf("--plugin", "pretty", "--glue", "todo", "src/test/resources/todo")
         }

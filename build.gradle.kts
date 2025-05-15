@@ -1,7 +1,7 @@
 plugins {
     java
-    id("us.ascendtech.gwt.lib") version "0.8.15" apply false
-    id("us.ascendtech.gwt.modern") version "0.8.15" apply false
+    id("us.ascendtech.gwt.lib") version "0.11.3" apply false
+    id("us.ascendtech.gwt.modern") version "0.11.3" apply false
 }
 
 defaultTasks("build")
@@ -11,8 +11,8 @@ subprojects {
     apply(plugin = "java")
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultTasks("build")
