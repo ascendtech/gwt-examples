@@ -114,7 +114,7 @@ public class PlayersComponent implements IsVueComponent, HasCreated {
 			nextPlayer();
 		}
 		ServiceProvider.get().getPlayersServiceClient()
-				.remove(gameKey, item.getId(), () -> players = players.filter((player, index, array) -> index != removeIndex), errorHandler);
+				.remove(gameKey, item.getId(), () -> players = players.filter((player, index) -> index != removeIndex), errorHandler);
 	}
 
 	@JsMethod

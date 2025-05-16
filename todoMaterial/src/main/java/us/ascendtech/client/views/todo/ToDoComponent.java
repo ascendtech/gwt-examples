@@ -63,7 +63,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 	@JsMethod
 	void removeFromTable() {
 		if (gridApi.getSelectedRows().length > 0) {
-			gridApi.getSelectedRows().forEach((currentValue, index, array) -> {
+			gridApi.getSelectedRows().forEach((currentValue, index) -> {
 				rowData.splice(rowData.indexOf(currentValue), 1);
 				ServiceProvider.get().getTodoServiceClient().deleteToDo(currentValue.getId(), () -> {
 				}, errorHandler);

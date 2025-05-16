@@ -59,15 +59,15 @@ public class TriviaService {
         this.categories.clear();
         this.categories.put(0, "All");
         Arrays.stream(response.triviaCategories).forEach(category -> this.categories.put(category.id, category.name));
-        LOG.debug(String.format("Categories: %d", response.triviaCategories.length));
-    }
+        LOG.info("Categories: {}", response.triviaCategories.length);
+	}
 
     public Vector<TriviaQuestion> getQuestions() {
         return questions;
     }
 
     public TriviaQuestion getQuestion() {
-        if (questions.size() == 0 || questionIndex >= questions.size()) {
+        if (questions.isEmpty() || questionIndex >= questions.size()) {
             return nextQuestion();
         }
         return questions.elementAt(questionIndex);
@@ -156,7 +156,7 @@ public class TriviaService {
             throw new IOException("Token response code: " + response.responseCode);
         }
         this.session = response.token;
-        LOG.debug(String.format("Session: %s", response.toString()));
+        LOG.info("Session: {}", response.toString());
     }
 
     private String buildQueryString() {
@@ -176,18 +176,20 @@ public class TriviaService {
      */
     private void fetchQuestions() throws IOException {
         var queryString = this.buildQueryString();
-        LOG.debug(String.format("Query: %s", queryString));
+        LOG.info("Query: {}", queryString);
         this.questionIndex = 0;
 
-        var reader = new BufferedReader(new InputStreamReader(new URL(queryString).openStream()));
-        Gson gson = new Gson();
-        var response = gson.fromJson(reader.readLine(), QuestionsResults.class);
-        if (response.responseCode != 0) {
-            throw new IOException("Questions response code: " + response.responseCode);
+        try (var reader = new BufferedReader(new InputStreamReader(new URL(queryString).openStream()))) {
+            Gson gson = new Gson();
+            var response = gson.fromJson(reader.readLine(), QuestionsResults.class);
+            if (response.responseCode != 0) {
+                throw new IOException("Questions response code: " + response.responseCode);
+            }
+            this.questions.clear();
+            Collections.addAll(this.questions, response.results);
+            LOG.info("Questions: {}", response.toString());
         }
-        this.questions.clear();
-        Collections.addAll(this.questions, response.results);
-        LOG.debug(String.format("Questions: %s", response.toString()));
+
     }
 
     private static class CategoriesResponse {
