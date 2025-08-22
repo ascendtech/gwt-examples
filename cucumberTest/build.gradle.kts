@@ -23,3 +23,14 @@ task("cucumberTodo") {
         }
     }
 }
+
+task("cucumberiCite") {
+    dependsOn("assemble", "testClasses")
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.getByName("cucumberRuntime") + sourceSets.main.get().output + sourceSets.test.get().output
+            args = listOf("--plugin", "pretty", "--glue", "iCite", "src/test/resources/iCite")
+        }
+    }
+}
