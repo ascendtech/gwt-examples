@@ -28,7 +28,7 @@
     "vue-router": "^3.5.3",
     "vue-property-decorator": "^8.5.1",
     "vue-class-component": "^7.2.6",
-    "vuetify": "^2.7.2",
+    "vuetify": "^3.0.0",
     "@mdi/font": "^5.8.55",
     "@mdi/js": "^5.8.55",
     "moment": "^2.29.1",
