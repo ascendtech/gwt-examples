@@ -1,3 +1,6 @@
+# These projects are no longer maintained. You may use them at your own discretion.
+
+
 Two GWT example projects using GWT-Vue with Webpack and the https://github.com/ascendtech/gwt-gradle plugin.
 * todoMaterial / todoRest
 * games / gamesRest
